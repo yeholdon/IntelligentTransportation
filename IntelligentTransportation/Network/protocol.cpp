@@ -26,4 +26,5 @@ QByteArray Protocol::packData(int type, QString key1, QString value1, QString ke
     // 用于将json对象转换成方便直接传输的字节流
     QJsonDocument jsonDoc(json);
     return jsonDoc.toJson();// 把json对象转换成QByteArrray类型，方便直接传输
+
 }

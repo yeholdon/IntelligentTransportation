@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
     jam_level_color[1] = "background-color:rgb(255, 170, 0)"; // 橙
     jam_level_color[2] = "background-color:rgb(255, 0, 0)"; // 红
 
+
+
 }
 
 MainWindow::~MainWindow()
@@ -58,6 +60,10 @@ void MainWindow::initJamLabelGroup()
     labels[31] = ui->label_32;
 
     opacityEffect = new QGraphicsOpacityEffect[ROAD_NUM];
+
+    for(int i; i < ROAD_NUM; i++) {
+        labels[i]->setStyleSheet("background:tansparent;");
+    }
 }
 
 void MainWindow::routePlanningAvoidJam()
