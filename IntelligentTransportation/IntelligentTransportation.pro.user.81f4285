@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.4.1, 2019-07-16T11:58:31. -->
+<!-- Written by QtCreator 4.4.1, 2019-07-15T11:37:39. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
-  <value type="QByteArray">{fe6b946c-680c-4c94-82e3-85e9f657d78e}</value>
+  <value type="QByteArray">{81f4285d-ef7f-43c9-8fac-c1bde0fae00b}</value>
  </data>
  <data>
   <variable>ProjectExplorer.Project.ActiveTarget</variable>
@@ -285,8 +285,8 @@
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">IntelligentTransportation</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:E:/My Project/ITrans/Software/IntelligentTransportation/IntelligentTransportation/IntelligentTransportation.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">IntelligentTransportation2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:G:/Qt/QtProject/IntelligentTransportationProject/IntelligentTransportation/IntelligentTransportation.pro</value>
     <value type="bool" key="QmakeProjectManager.QmakeRunConfiguration.UseLibrarySearchPath">true</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.CommandLineArguments"></value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">IntelligentTransportation.pro</value>

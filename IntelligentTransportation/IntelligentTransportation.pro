@@ -9,6 +9,8 @@ QT       += core gui network sql serialport texttospeech
 include(Network/network.pri)
 include(Database/database.pri)
 include(Window/window.pri)
+include(Route/route.pri)
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = IntelligentTransportation

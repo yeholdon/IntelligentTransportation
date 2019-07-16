@@ -6,12 +6,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    //初始化：顶点到边
 
     initJamLabelGroup();
 
     // 初始化表示拥堵状况的三种颜色的数组
     jam_level_color[0] = "background-color:rgb(0, 255, 0)"; // 绿
-    jam_level_color[1] = "background-color:rgb(255, 170, 0)"; // 橙
+    jam_level_color[1] = "background-color:rgb(0, 0, 255)"; // 橙
     jam_level_color[2] = "background-color:rgb(255, 0, 0)"; // 红
 
 
@@ -66,15 +67,8 @@ void MainWindow::initJamLabelGroup()
     }
 }
 
-void MainWindow::routePlanningAvoidJam()
-{
-    // 路径规划算法，躲避拥堵
-}
 
-void MainWindow::routePlanningShortestPath()
-{
-    // 路径规划算法，最短路径
-}
+
 
 void MainWindow::on_pushButton_clicked()
 {
@@ -90,6 +84,13 @@ void MainWindow::on_pushButton_clicked()
         labels[i]->setGraphicsEffect(&opacityEffect[i]);
         opacityEffect[i].setOpacity(1.0);
     }
+    QVector<int> v;
+    v = Route::getRoutePtr()->minRouteJam(11,0,jam_level);
+    qDebug()<<"考虑拥堵的最短路径："<<v;
+    v = Route::getRoutePtr()->minRoute(11,0);
+    qDebug()<<"不考虑拥堵的最短路径："<<v;
+    int road = Route::getRoutePtr()->getNodeToEdge(0,1);
+    qDebug()<<road;
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -102,11 +103,9 @@ void MainWindow::on_pushButton_2_clicked()
     // 普通模式，则优先选取最短路径，其余同“躲避拥堵模式”
     if(ui->checkBox->checkState()) {
         // 躲避拥堵模式
-        routePlanningAvoidJam();
     }
     else
     {
         // 最短路径优先模式
-        routePlanningShortestPath();
     }
 }
