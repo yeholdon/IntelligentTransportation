@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1500</width>
-    <height>950</height>
+    <height>720</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,17 +32,17 @@
      <x>1220</x>
      <y>110</y>
      <width>271</width>
-     <height>301</height>
+     <height>361</height>
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="widget">
     <attribute name="title">
      <string>自动规划路径</string>
     </attribute>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="generate_jam_btn">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -55,17 +55,7 @@
       <string>随机生成路况</string>
      </property>
     </widget>
-    <widget class="QTextBrowser" name="textBrowser">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>241</width>
-       <height>191</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="auto_plan_btn">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -78,11 +68,11 @@
       <string>自动规划</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkBox">
+    <widget class="QCheckBox" name="avoid_jam_checkbox">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>250</y>
+       <y>290</y>
        <width>91</width>
        <height>19</height>
       </rect>
@@ -96,6 +86,45 @@
     <attribute name="title">
      <string>手动规划路径</string>
     </attribute>
+    <widget class="QPushButton" name="begin">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>10</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>开始</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="finish">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>70</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>完成</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="cancel">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>130</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>取消</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QLabel" name="label">
@@ -108,7 +137,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -124,7 +153,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -140,7 +169,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -156,7 +185,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -172,7 +201,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -188,7 +217,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -204,7 +233,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -220,7 +249,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -236,7 +265,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -252,7 +281,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -268,7 +297,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -284,7 +313,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -300,7 +329,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -316,7 +345,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -332,7 +361,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -348,7 +377,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -364,7 +393,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -380,7 +409,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -396,7 +425,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -412,7 +441,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -428,7 +457,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -444,7 +473,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -460,7 +489,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -476,7 +505,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -492,7 +521,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -508,7 +537,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -524,7 +553,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -540,7 +569,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -556,7 +585,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -572,7 +601,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -588,7 +617,7 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 0, 0);</string>
+    <string notr="true">background:transparent;</string>
    </property>
    <property name="text">
     <string/>
@@ -604,10 +633,267 @@
     </rect>
    </property>
    <property name="styleSheet">
+    <string notr="true">background:transparent;</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="crossing_1">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>62</width>
+     <height>62</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
     <string notr="true">background-color: rgb(255, 0, 0);</string>
    </property>
    <property name="text">
     <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="crossing_2">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>0</y>
+     <width>62</width>
+     <height>62</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="crossing_3">
+   <property name="geometry">
+    <rect>
+     <x>760</x>
+     <y>0</y>
+     <width>62</width>
+     <height>62</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="crossing_4">
+   <property name="geometry">
+    <rect>
+     <x>1140</x>
+     <y>0</y>
+     <width>62</width>
+     <height>62</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="crossing_5">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>330</y>
+     <width>62</width>
+     <height>62</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="crossing_6">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>330</y>
+     <width>62</width>
+     <height>62</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="crossing_7">
+   <property name="geometry">
+    <rect>
+     <x>760</x>
+     <y>330</y>
+     <width>62</width>
+     <height>62</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="crossing_8">
+   <property name="geometry">
+    <rect>
+     <x>1140</x>
+     <y>330</y>
+     <width>62</width>
+     <height>62</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="crossing_9">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>660</y>
+     <width>62</width>
+     <height>62</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="crossing_10">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>660</y>
+     <width>62</width>
+     <height>62</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="crossing_11">
+   <property name="geometry">
+    <rect>
+     <x>760</x>
+     <y>660</y>
+     <width>62</width>
+     <height>62</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="crossing_12">
+   <property name="geometry">
+    <rect>
+     <x>1140</x>
+     <y>660</y>
+     <width>62</width>
+     <height>62</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="flat">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="start">
+   <property name="geometry">
+    <rect>
+     <x>1220</x>
+     <y>500</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>出发</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pause">
+   <property name="geometry">
+    <rect>
+     <x>1370</x>
+     <y>500</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>暂停</string>
    </property>
   </widget>
  </widget>

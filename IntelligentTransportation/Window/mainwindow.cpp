@@ -6,9 +6,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    // 设置窗口大小固定, 先实现功能，有需要再改自适应
+    this->setFixedSize(this->width(), this->height());
+    this->setWindowFlags(windowFlags()&~Qt::WindowMaximizeButtonHint);
+    // 初始情况的随机生成按钮不可用
+    ui->generate_jam_btn->setVisible(false);
+    ui->generate_jam_btn->setEnabled(false);
+    // 初始化拥堵标签和路口按钮
     initJamLabelGroup();
-
+    initCrossingGroup();
     // 初始化表示拥堵状况的三种颜色的数组
     jam_level_color[0] = "background-color:rgb(0, 255, 0)"; // 绿
     jam_level_color[1] = "background-color:rgb(255, 170, 0)"; // 橙
@@ -19,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-
+    delete[] opacityEffect;
 }
 
 void MainWindow::initJamLabelGroup()
@@ -58,49 +64,81 @@ void MainWindow::initJamLabelGroup()
     labels[31] = ui->label_32;
 
     opacityEffect = new QGraphicsOpacityEffect[ROAD_NUM];
+
 }
 
-void MainWindow::routePlanningAvoidJam()
+void MainWindow::initCrossingGroup()
 {
-    // 路径规划算法，躲避拥堵
-}
+    crossing[0] = ui->crossing_1;
+    crossing[1] = ui->crossing_2;
+    crossing[2] = ui->crossing_3;
+    crossing[3] = ui->crossing_4;
+    crossing[4] = ui->crossing_5;
+    crossing[5] = ui->crossing_6;
+    crossing[6] = ui->crossing_7;
+    crossing[7] = ui->crossing_8;
+    crossing[8] = ui->crossing_9;
+    crossing[9] = ui->crossing_10;
+    crossing[10] = ui->crossing_11;
+    crossing[11] = ui->crossing_12;
 
-void MainWindow::routePlanningShortestPath()
-{
-    // 路径规划算法，最短路径
-}
-
-void MainWindow::on_pushButton_clicked()
-{
-    // 随机生成拥堵按钮槽函数
-    qDebug() << "on_pushButton_clicked()";
-    // 随机生成24各随机数，取值为0，1，2，分别对应畅通，轻微拥堵和拥堵三种拥堵等级。
-    // 根据随机数设置对应路段表示道路拥堵状态的标签颜色
-    qsrand((unsigned)time(NULL));
-    for(int i = 0; i < ROAD_NUM; i++) {
-        int r = (round(1.0 * rand() / RAND_MAX * (3 - 0) - 0.5));
-        jam_level[i] = r; // 记录当前生成的所有路段的拥堵等级，供路径规划使用
-        labels[i]->setStyleSheet(jam_level_color[r]);
-        labels[i]->setGraphicsEffect(&opacityEffect[i]);
-        opacityEffect[i].setOpacity(1.0);
+    for(int i = 0; i < CROSSING_NUM; i++) {
+        crossing[i]->setVisible(false);
+        crossing[i]->setEnabled(false);
+        connect(crossing[i], SIGNAL(clicked(bool)), this, SLOT(crossing_clicked(bool)));
     }
 }
 
-void MainWindow::on_pushButton_2_clicked()
+
+void MainWindow::on_avoid_jam_checkbox_stateChanged(int arg1)
 {
-    // 自动规划路径槽函数
-    // 运行路径规划算法
-    // 可以由用户设置为躲避拥堵模式
-    // “躲避拥堵”模式下，优先选取拥堵情况最好的路径，最优路径不唯一，
-    // 则选取最短的一条，若还不唯一，则随机选取一条。
-    // 普通模式，则优先选取最短路径，其余同“躲避拥堵模式”
-    if(ui->checkBox->checkState()) {
-        // 躲避拥堵模式
-        routePlanningAvoidJam();
+    if(arg1 == 0) {
+        // unchecked, 按钮不可见
+        ui->generate_jam_btn->setVisible(false);
+        ui->generate_jam_btn->setEnabled(false);
     }
     else
     {
-        // 最短路径优先模式
-        routePlanningShortestPath();
+        ui->generate_jam_btn->setVisible(true);
+        ui->generate_jam_btn->setEnabled(true);
     }
+}
+
+void MainWindow::on_begin_clicked()
+{
+    for(int i = 0; i < CROSSING_NUM; i++) {
+        crossing[i]->setVisible(true);
+        crossing[i]->setEnabled(true);
+    }
+}
+
+void MainWindow::crossing_clicked(bool b)
+{
+    QPushButton *pressed_btn = (QPushButton *)sender();
+    pressed_btn->setFlat(false);
+    pressed_btn->setStyleSheet("background:red;");
+    vec.append(pressed_btn);
+}
+
+void MainWindow::on_cancel_clicked()
+{
+    for(int i = 0; i < vec.size(); i++) {
+        vec[i]->setStyleSheet("background:transparent;");
+    }
+    vec.clear();
+}
+
+void MainWindow::on_finish_clicked()
+{
+    for(int i = 0; i < CROSSING_NUM; i++) {
+        crossing[i]->setVisible(false);
+        crossing[i]->setEnabled(false);
+    }
+//    for(int i = 0; i < vec.size(); i++) {
+//        crossing[i]->setVisible(true);
+//        crossing[i]->setEnabled(true);
+////        crossing[i]->setFlat(false);
+//        crossing[i]->setStyleSheet("background:red;");
+//    }
+
 }
