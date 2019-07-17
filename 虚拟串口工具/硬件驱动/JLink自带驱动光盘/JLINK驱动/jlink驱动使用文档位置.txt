@@ -1,4 +1,0 @@
-1, jlink的Setup_JLinkARM_V408l.zip 版本驱动的使用说明在安装目录doc下面，
-默认安装路径：C:\Program Files\SEGGER\JLinkARM_V408l\Doc\UM08001_JLinkARM.pdf
-2，Setup_JLinkARM_V408l.zip 版本驱动比较稳定建议使用；xp下使用比较稳定；win7 4.10以上驱动比较好些
-3，驱动可以任意安装一个版本使用；

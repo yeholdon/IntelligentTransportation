@@ -1,1 +1,0 @@
-1,使用iar或者mdk 在flash内调试时如果报错，应先用j-flash擦除flash

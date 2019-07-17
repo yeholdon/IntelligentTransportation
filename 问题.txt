@@ -1,2 +1,0 @@
-SerialPortProtocol::receiveDeviceDataSlot(const QByteArray &data)
-解析从串口读入的帧这个函数中，有个循环变量i写成了j
