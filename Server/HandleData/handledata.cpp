@@ -77,6 +77,6 @@ void HandleData::receiverDeviceDataSlot(DataInfo info)
      }
     else
     {
-        qDebug()<<"HandleDate: 服务器无法把DataInfo格式的数据包转换为json格式的";
+//        qDebug()<<"HandleDate: 服务器无法把DataInfo格式的数据包转换为json格式的";
     }
 }

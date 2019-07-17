@@ -30,21 +30,21 @@ void MyTcpSocket::receiveDataFromClient(const QByteArray &data)
         //下行数据中
         info.data.append(json.value("cmd").toString());
         info.len = info.data.size();
-        info.type = 0xC1;
+        info.type = 1;
         break;
     }
     case 2:
     {
         info.data.append(json.value("cmd").toString());
-        info.len = 8 + info.data.size();
-        info.type = 0xC2;
+        info.len = info.data.size();
+        info.type = 2;
         break;
     }
     case 3:
     {
         info.data.append(json.value("cmd").toString());
-        info.len = 8 + info.data.size();
-        info.type = 0x00;
+        info.len = info.data.size();
+        info.type = 3;
         break;
     }
     }

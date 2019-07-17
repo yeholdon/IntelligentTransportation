@@ -32,10 +32,10 @@ QByteArray SerialPortProtocol::sendDeviceData(const DataInfo &sendData)
         sendArray[7] = ((sendData.data == "0") ? 0x00 : 0x01);
         sendArray[6] = 0x00;
     }else{  //1号车或2号车控制
-        sendArray[6] = sendData.type == 1 ? 0xC1 : 0xC2;
+        sendArray[6] = ((sendData.type == 1) ? 0xC1 : 0xC2);
         for(int i=0; i< sendData.len; i++)
         {
-            qDebug()<<i<<sendData.len;
+//            qDebug()<<i<<sendData.len;
             if(sendData.data.size() > i) {
                 switch (sendData.data[i])
                 {
@@ -56,7 +56,7 @@ QByteArray SerialPortProtocol::sendDeviceData(const DataInfo &sendData)
 
 void SerialPortProtocol::receiveDeviceDataSlot(const QByteArray &data)
 {
-    qDebug() << "receiveDeviceDataSlot" << data.toHex();
+//    qDebug() << "receiveDeviceDataSlot" << data.toHex();
     //FF EFEF0BFFFF0BAC0000FF
     for(int i = 0;i<data.size();i++)
     {
@@ -87,7 +87,7 @@ void SerialPortProtocol::receiveDeviceDataSlot(const QByteArray &data)
             }
             //将从帧结构中解析的数据发送到网络模块，进行json封装
             emit transferDeviceData(receiveData);
-            qDebug() << "将从帧结构中解析的数据发送到网络模块，进行json封装" << receiveData.data;
+
             //开始接收下一帧
             len = 0;
             continue;

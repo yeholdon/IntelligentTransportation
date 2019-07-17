@@ -93,7 +93,7 @@ void SerialportDevice::writeSerialPortSlot(const DataInfo &dataInfo)
     if(serial->isOpen())
     {
         QByteArray data  = SerialPortProtocol::getSerialPortProtocolPtr()->sendDeviceData(dataInfo);
-        qDebug()<< "向串口发送数据" <<data.toHex();
+//        qDebug()<< "向串口发送数据" <<data.toHex();
         serial->write(data);
     }
 }

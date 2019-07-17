@@ -23,7 +23,7 @@ MyTcpServer *MyTcpServer::getServerPtr()
 
 void MyTcpServer::sendDataToClient(const QByteArray &data)
 {
-    qDebug() << "MyTcpServer::sendDataToClient";
+//    qDebug() << "MyTcpServer::sendDataToClient";
     emit transferData(data);
 }
 
