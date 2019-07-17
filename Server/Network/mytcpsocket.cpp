@@ -81,6 +81,6 @@ void MyTcpSocket::disconnectSlot()
 // 服务器发送给客户端
 void MyTcpSocket::sendToClientSlot(const QByteArray &data)
 {
-    qDebug() << "服务器发送给客户端" << data;
+//    qDebug() << "服务器发送给客户端" << data;
     this->write(data);
 }

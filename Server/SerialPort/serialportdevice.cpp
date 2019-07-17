@@ -93,7 +93,7 @@ void SerialportDevice::writeSerialPortSlot(const DataInfo &dataInfo)
     if(serial->isOpen())
     {
         QByteArray data  = SerialPortProtocol::getSerialPortProtocolPtr()->sendDeviceData(dataInfo);
-//        qDebug()<< "向串口发送数据" <<data.toHex();
+        qDebug()<< "向串口发送数据:" <<data.toHex();
         serial->write(data);
     }
 }
@@ -124,7 +124,7 @@ void SerialportDevice::saveSettings()
     //config.ini 为windows下的配置文件
     //组织结构：由多个组组成，每个组由多个键值对组成
     QSettings set("config.ini",QSettings::IniFormat);
-    //先创建组，传入组名
+    //先创建组，传入组名q
     set.beginGroup("SerialPortGroup");
     //再创建键值对
     set.setValue("baudrate",57600);
@@ -150,5 +150,5 @@ void SerialportDevice::readSerialPortSlot()
         data.append(serial->readAll());
     }
     emit tranferData(data);
-    qDebug()<<"从串口接收到的数据： "<<data.toHex();
+//    qDebug()<<"从串口接收到的数据： "<<data.toHex();
 }
