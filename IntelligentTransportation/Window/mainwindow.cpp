@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     // 设置窗口大小固定, 先实现功能，有需要再改自适应
     this->setFixedSize(this->width(), this->height());
     this->setWindowFlags(windowFlags()&~Qt::WindowMaximizeButtonHint);
@@ -13,11 +14,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->generate_jam_btn->setVisible(false);
     ui->generate_jam_btn->setEnabled(false);
     // 初始化拥堵标签和路口按钮
+
+    //初始化：顶点到边
+
+
     initJamLabelGroup();
     initCrossingGroup();
     // 初始化表示拥堵状况的三种颜色的数组
     jam_level_color[0] = "background-color:rgb(0, 255, 0)"; // 绿
-    jam_level_color[1] = "background-color:rgb(255, 170, 0)"; // 橙
+    jam_level_color[1] = "background-color:rgb(0, 0, 255)"; // 橙
     jam_level_color[2] = "background-color:rgb(255, 0, 0)"; // 红
 
 }
@@ -65,6 +70,7 @@ void MainWindow::initJamLabelGroup()
 
     opacityEffect = new QGraphicsOpacityEffect[ROAD_NUM];
 
+
 }
 
 void MainWindow::initCrossingGroup()
@@ -85,60 +91,11 @@ void MainWindow::initCrossingGroup()
     for(int i = 0; i < CROSSING_NUM; i++) {
         crossing[i]->setVisible(false);
         crossing[i]->setEnabled(false);
-        connect(crossing[i], SIGNAL(clicked(bool)), this, SLOT(crossing_clicked(bool)));
+    }
+    for(int i; i < ROAD_NUM; i++) {
+        labels[i]->setStyleSheet("background:tansparent;");
     }
 }
 
 
-void MainWindow::on_avoid_jam_checkbox_stateChanged(int arg1)
-{
-    if(arg1 == 0) {
-        // unchecked, 按钮不可见
-        ui->generate_jam_btn->setVisible(false);
-        ui->generate_jam_btn->setEnabled(false);
-    }
-    else
-    {
-        ui->generate_jam_btn->setVisible(true);
-        ui->generate_jam_btn->setEnabled(true);
-    }
-}
 
-void MainWindow::on_begin_clicked()
-{
-    for(int i = 0; i < CROSSING_NUM; i++) {
-        crossing[i]->setVisible(true);
-        crossing[i]->setEnabled(true);
-    }
-}
-
-void MainWindow::crossing_clicked(bool b)
-{
-    QPushButton *pressed_btn = (QPushButton *)sender();
-    pressed_btn->setFlat(false);
-    pressed_btn->setStyleSheet("background:red;");
-    vec.append(pressed_btn);
-}
-
-void MainWindow::on_cancel_clicked()
-{
-    for(int i = 0; i < vec.size(); i++) {
-        vec[i]->setStyleSheet("background:transparent;");
-    }
-    vec.clear();
-}
-
-void MainWindow::on_finish_clicked()
-{
-    for(int i = 0; i < CROSSING_NUM; i++) {
-        crossing[i]->setVisible(false);
-        crossing[i]->setEnabled(false);
-    }
-//    for(int i = 0; i < vec.size(); i++) {
-//        crossing[i]->setVisible(true);
-//        crossing[i]->setEnabled(true);
-////        crossing[i]->setFlat(false);
-//        crossing[i]->setStyleSheet("background:red;");
-//    }
-
-}
