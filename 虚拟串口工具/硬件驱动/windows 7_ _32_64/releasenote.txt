@@ -1,0 +1,46 @@
+PL-2303 Driver Setup Installer, Prolific Edition
+Setup Installer Revision Note History
+=================================================
+
+System Requirement:
+  . Supports the following Windows OSes:
+	- Windows 98SE
+	- Windows ME
+	- Windows 2000 SP4
+	- Windows XP SP2 and above (32 & 64 bit)
+	- Windows Server 2003 (32 & 64 bit)
+	- Windows Server 2008 (32 & 64 bit)
+	- Windows Vista (32 & 64 bit)
+	- Windows 7 (32 & 64 bit)
+    	  NOTE: For Windows 7, please use RC build 7100 or above.
+  . USB host controller
+  . Device using PL-2303H/HX/X version chip
+ 
+
+Supported device ID and product strings:
+  . VID_067B&PID_2303 for "Prolific USB-to-Serial Comm Port"
+
+
+Release Notes:
+---------------
+PL2303 Driver Installer v1.0.5.18
+  Changes from Installer v1.0.3.11:
+    . XP/2K/2003 (WDM Driver) v2.0.9.122:
+	- supports both 32 and 64 bit OS
+	- pass Microsoft XP Windows Logo Test (WLK 1.4)
+    . Vista/7/2008 (WDF Driver) v3.3.5.122:
+	- pass Microsoft Vista/Win7 Logo Test (WLK 1.4)
+	
+   Installer & Build date: 1.0.5.18_20090723
+	
+   Language Support: 
+	- English (default)
+	- Chinese (Traditional) 
+	- Chinese (Simplified)
+	- Japanese
+
+
+
+========================================
+Prolific Technology Inc.
+http://www.prolific.com.tw

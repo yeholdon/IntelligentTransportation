@@ -5,32 +5,52 @@ MyTcpSocket::MyTcpSocket(QObject *parent) : QTcpSocket(parent)
     //绑定信号与槽函数
     connect(this,SIGNAL(readyRead()),this,SLOT(readDataSlot()));
     connect(this,SIGNAL(disconnected()),this,SLOT(disconnectSlot()));
+    connect(this, SIGNAL(transferDataToSerialPort(DataInfo)), SerialportDevice::getDeviceptr(), SLOT(writeSerialPortSlot(DataInfo)));
+    //上行，从串口传来的
+//    connect(this, SIGNAL(transferDataToSerialPort(DataInfo)), SerialPortProtocol::getSerialPortProtocolPtr(), SLOT(receiveDatafromSocket(DataInfo)));
 }
 
-void MyTcpSocket::translaterData(const QByteArray &data)
+
+// 新加的接收来自客户端的json包
+void MyTcpSocket::receiveDataFromClient(const QByteArray &data)
 {
     //客户端发送来的data是具有json格式的
     QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
     QJsonObject json = jsonDoc.object();
     //json.value("type")为String类型
     int type = json.value("type").toInt();
+    DataInfo info;
+    info.data.clear();
+    info.addr[0] = info.addr[1] = 0xFF;
     switch(type)
     {
     //群发消息
-    case 0:
+    case 1:
     {
-        //下行数据中，规定type = 0也为群发
-        handleMessData(json);
+        //下行数据中
+        info.data.append(json.value("cmd").toString());
+        info.len = info.data.size();
+        info.type = 0xC1;
+        break;
+    }
+    case 2:
+    {
+        info.data.append(json.value("cmd").toString());
+        info.len = 8 + info.data.size();
+        info.type = 0xC2;
+        break;
+    }
+    case 3:
+    {
+        info.data.append(json.value("cmd").toString());
+        info.len = 8 + info.data.size();
+        info.type = 0x00;
+        break;
     }
     }
+    emit transferDataToSerialPort(info);
 }
-void MyTcpSocket::handleMessData(const QJsonObject &json)
-{
-    QString text = json.value("text").toString();
-    QByteArray data = Protocol::packData(0,"ip",peerAddress().toString(),"text",text);
-    //emit 发出信号
-    emit transferData(this,data);
-}
+
 
 //读取数据的槽函数
 void MyTcpSocket::readDataSlot()
@@ -43,6 +63,7 @@ void MyTcpSocket::readDataSlot()
     {
         data.append(this->readAll());       //readAll():当前网络环境允许读取的数据的最大值
     }
+    receiveDataFromClient(data);
     //data():返回char* 指针
     qDebug()<<peerAddress().toString()<<":"<<data.data();
 }
@@ -57,13 +78,9 @@ void MyTcpSocket::disconnectSlot()
     this->deleteLater();
 }
 
-void MyTcpSocket::receiveMassDataSlot(const QByteArray &data)
+// 服务器发送给客户端
+void MyTcpSocket::sendToClientSlot(const QByteArray &data)
 {
-//    //this：每个客户端对应的socket id
-//    //socket:  给服务器发送群发消息的客户端的 socket id
-//    if(this != socket)
-//    {
-//        this->write(data);
-//    }
+    qDebug() << "服务器发送给客户端" << data;
     this->write(data);
 }

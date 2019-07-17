@@ -1,0 +1,6 @@
+显示-1那是正常的
+因为此时还没有写SN到LINK里去
+
+命令行下输入
+
+Exec SetSN=XXXXXXXX 

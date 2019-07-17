@@ -1,4 +1,5 @@
 #include "serialportdevice.h"
+#include "serialportprotocol.h"
 SerialportDevice* SerialportDevice::device = NULL;
 
 SerialportDevice::SerialportDevice(QObject *parent) : QObject(parent)
@@ -65,6 +66,10 @@ bool SerialportDevice::openSerialPort()
     return false;
 }
 
+
+
+
+
 bool SerialportDevice::writeSerialPort(const QByteArray &data)
 {
     if(serial == NULL)
@@ -75,6 +80,22 @@ bool SerialportDevice::writeSerialPort(const QByteArray &data)
             return true;
     }
     return false;
+}
+
+//向串口发送数据 ////////////////////////////
+void SerialportDevice::writeSerialPortSlot(const DataInfo &dataInfo)
+{
+    qDebug() << "writeSerialPortSlot" << (QString)dataInfo.data;
+    if(serial == NULL){
+        qDebug() << "serial == null";
+        openSerialPort();
+    }
+    if(serial->isOpen())
+    {
+        QByteArray data  = SerialPortProtocol::getSerialPortProtocolPtr()->sendDeviceData(dataInfo);
+        qDebug()<< "向串口发送数据" <<data.toHex();
+        serial->write(data);
+    }
 }
 
 bool SerialportDevice::getState()

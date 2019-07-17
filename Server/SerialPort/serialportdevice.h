@@ -3,12 +3,12 @@
 /*串口设备类*/
 
 #include <QObject>
-#include <QSerialPortINfo>  //列举本机串口信息
+#include <QSerialPortInfo>  //列举本机串口信息
 #include <QSerialPort>      //串口设备类
 #include <QDebug>
 #include <QStringList>  //字符串列表
 #include <QSettings>    //配置文件类
-
+#include "datainfo.h"
 //单例模式类
 class SerialportDevice : public QObject
 {
@@ -32,6 +32,7 @@ public slots:
     //从串口读数据时，需要使用回调机制，所以用槽函数
     //当串口传来数据时，会发出信号，进而触发此槽函数
     void readSerialPortSlot();  //从串口读取数据的接口
+    void writeSerialPortSlot(const DataInfo &dataInfo);   //向串口中写入data数据的接口
 private:
     QSerialPort* serial;    //代表一个串口设备
     static SerialportDevice *device;

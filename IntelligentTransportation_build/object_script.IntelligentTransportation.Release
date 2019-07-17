@@ -1,0 +1,14 @@
+INPUT(
+./release\protocol.o
+./release\network.o
+./release\database.o
+./release\mainwindow.o
+./release\route.o
+./release\main.o
+./release\qrc_image.o
+./release\moc_protocol.o
+./release\moc_network.o
+./release\moc_database.o
+./release\moc_mainwindow.o
+./release\moc_route.o
+);

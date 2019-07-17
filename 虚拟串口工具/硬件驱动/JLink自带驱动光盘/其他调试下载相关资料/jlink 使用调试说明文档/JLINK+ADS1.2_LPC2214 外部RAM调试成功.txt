@@ -1,0 +1,27 @@
+JLINK+ADS1.2_LPC2214 外部RAM调试成功
+
+ 
+
+将以下部分存为“LPC2214.setup”文件
+/*********************************************************************
+*
+* Setup file for J-LINK RDI
+*
+**********************************************************************
+* File: LPC2214.setup
+* Purpose: Setup for Philips LPC2214 chip
+**********************************************************************
+*/
+SetJTAGSpeed(30);
+Reset(0);
+Write32(0x20003CE3, 0xFFE00000); 
+Write32(0x20003CE3, 0xFFE00004); 
+Write32(0x20003CE3, 0xFFE00008); 
+Write32(0x20003CE3, 0xFFE0000C); 
+Write32(0x0E6149E4, 0xE002C014);  // PINSEL2: CS0, CS1, CS2, OE, WE, BLS0..3, D0..31, A2..23, JTAG
+SetJTAGSpeed(1000);
+
+在jlink 设置中添加此setup文件
+
+ 
+ 

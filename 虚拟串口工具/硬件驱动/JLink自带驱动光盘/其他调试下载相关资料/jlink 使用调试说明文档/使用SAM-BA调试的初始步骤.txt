@@ -1,0 +1,61 @@
+使用SAM-BA调试的初始步骤
+ 
+ 
+ 
+AT91SAM7S板可以使用SAM-BA?软件通过DBGU或者USB口编译。但是AT91SAM7S 系列芯片，出厂后并没有将SAM-BA Boot 固件复制到FLASH 存储器的头两个区，所以当第一次通过USB 连接目标板和PC 机的时候，需要按照“以下的步骤来复制SAM-BA Boot 固件到FLASH 并运行。
+
+
+1.关闭AT91SAM7S板电源；
+2.把板上的TST跳线连接；
+3.打开AT91SAM7S板电源；
+4.等10秒；
+5.关闭AT91SAM7S板电源；
+6.把板上的TST跳线断开；
+7.打开AT91SAM7S板电源；
+8.安装USB驱动程序：插上USB线，将提示“无法识别的硬件”，此时可以安装atm6124驱动程序
+9.打开“SAM-BA GUI”，就可以接着使用USB口下载文件到AT91SAM7S板。
+SAM-BA调试的硬件要求:
+-DBGUG的硬件要求 
+使用3～20MHz的石英震晶(软件自调适)；
+- USB的硬件要求 
+使用18.432MHz的石英震晶；
+USB的PIOA16口需要上拉电阻；
+
+
+http://www.olimex.com/dev/SAM-BA%20Notes.htm
+
+SAM-BA Notes V1.0 - May 2005
+The below procedure is applicable to: 
+AT91SAM7S32 & AT91SAM7S64 starting from rev E (product ID: 58814E)
+AT91SAM7S128 & AT91SAM7S256 starting from rev C (product ID: 58818C) 
+Getting Started with SAM-BA on the SAM7S-EK Evaluation Kit
+The AT91SAM7S-EK is ready to use the SAM-BA? software through DBGU or USB. Before being able to use SAM-BA, a recovery procedure which consists of copying the SAM-BA Boot Assistant into Flash must be performed as follows:
+Power down the SAM7S-EK
+Close the Jumper JP5 named TST
+Power up the SAM7S-EK
+Wait 10s
+Power down the SAM7S-EK
+Remove the Jumper JP5 named TST
+Power up the SAM7S-EK
+SAM-BA Boot Assistant is now available in the first two sectors of the on-chip flash and ready to use.
+ 
+Then, you can start using the SAM-BA GUI to interface with the SAM-BA Boot Assistant as described in the SAM-BA User Guide available in the "on-line" help.
+How to use SAM-BA on your AT91SAM7S-based devices application ?
+The AT91SAM7S devices feature the System Recovery procedure which restores the SAM-BA? Boot Assistant inside the Flash.
+System Recovery Procedure 
+When the TST pin is set during power-up and PGMEN0, PGMEN1 and PGMEN2 are set, the device is entering is a specific test mode and performs a SAM-BA? Boot System Recovery which consists in copying the SAM Boot Assistant (SAM-BA?) in the first two sectors of the on-chip Flash memory. The system recovery procedure takes 10s.
+In normal mode, the TST pin can be left unconnected thanks to the internal pull down. 
+Please note that on the SAM7S-EK, PGMEN0, PGMEN1 and PGMEN2 are set by using the internal pull-up resistors enabled by default after power-up. 
+SAM-BA Boot Assistant is now available in the first two sectors of the on-chip flash and ready to use. Then, you can start using the SAM-BA GUI to interface with the SAM-BA Boot Assistant as described in the SAM-BA User Guide available in the "on-line" help.
+
+
+SAM-BA hardware requirements:
+-DBGU Requirements 
+Wide range of Quartz from 3 to 20MHz Quartz (software auto detection)
+- USB Requirements 
+Limited to a 18.432MHz Quartz
+PIOA16 dedicated for the USB Pull-up (refer to the AT91SAM7S-EK Board Schematics)
+ 
+
+ 
+ 原文地址 http://blog.ednchina.com/testcode/123399/message.aspx  

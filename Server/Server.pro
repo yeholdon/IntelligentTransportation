@@ -7,7 +7,6 @@ include(Network/network.pri)
 include(DataBase/database.pri)
 include(SerialPort/serialport.pri)
 include(HandleData/handledata.pri)
-include(Route/route.pri)
 
 
 CONFIG += c++11 console
