@@ -49,7 +49,7 @@ void Network::readDataSlot()
     }
     qDebug() << "服务器反馈：" << data.data();
     QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
-    emit SendDataToWindow(jsonDoc.object()); // 收到数据，自动发给前台
+    emit SendDataToBackground(jsonDoc.object()); // 收到数据，自动发给后台总控
 }
 
 void Network::disconnectSlot()

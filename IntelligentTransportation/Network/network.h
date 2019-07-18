@@ -25,7 +25,7 @@ public:
 
 signals:
     // 参数带json对象比较好
-    void SendDataToWindow(const QJsonObject &json);
+    void SendDataToBackground(const QJsonObject &json);
 public slots:
     void connectedSlot();
     void readDataSlot();

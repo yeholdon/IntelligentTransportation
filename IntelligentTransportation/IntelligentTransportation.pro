@@ -10,6 +10,8 @@ include(Network/network.pri)
 include(Database/database.pri)
 include(Window/window.pri)
 include(Route/route.pri)
+include(UI/ui.pri)
+include(Background/background.pri)
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
