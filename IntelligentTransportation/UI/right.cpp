@@ -13,41 +13,42 @@ int Right::resizeWidth(int rewidth)
 
 int Right::resizeHeight(int reheight)
 {
-    return height()*reheight/696;
+    return height()*reheight/768;
 }
 
 void Right::initButton()
 {
-    roadCon_Button=new QPushButton("路况生成",this);//"border-width:1px;border-style:solid;border-color:rgba(121,121,121,1);"
-    roadCon_Button->setStyleSheet("font-style:normal;"
+    roadConButton=new QPushButton("路况生成",this);//"border-width:1px;border-style:solid;border-color:rgba(121,121,121,1);"
+    roadConButton->setStyleSheet("font-style:normal;"
                                   "font-size:23px;"
                                   "color:#333333;"
                                   "text-align:center;"
                                   "line-height:normal;"
                                   "background-color:rgba(255,255,255,1);"
-                                  "border:1px solid #979797"
+                                  "border:1px solid #979797;"
                                   "border-radius:5px;"
                                   "box:shadow:none;");
-    roadCon_Button->setCursor(QCursor(Qt::PointingHandCursor));
+    roadConButton->setCursor(QCursor(Qt::PointingHandCursor));
 
-    start_Button=new QPushButton("开始",this);//background-color:buttonface;"border-image:initial;"
-    start_Button->setStyleSheet("font-style:normal;"
+    startButton=new QPushButton("开始",this);//background-color:buttonface;"border-image:initial;"
+    startButton->setStyleSheet("font-style:normal;"
                                 "font-size:23px;"
                                 "color:#333333;"
                                 "border-width:2px;"
                                 "border-style:outset;"
                                 "border-color:buttonface;"
                                 );
-    start_Button->setCursor(QCursor(Qt::PointingHandCursor));
+    startButton->setCursor(QCursor(Qt::PointingHandCursor));
+    //connect(startButton,SIGNAL(clicked()),this,)
 
-    stop_Button=new QPushButton("暂停",this);
-    stop_Button->setStyleSheet("font-style:normal;"
+    stopButton=new QPushButton("暂停",this);
+    stopButton->setStyleSheet("font-style:normal;"
                                "font-size:23px;"
                                "color:#333333;"
                                "text-align:center;"
-                               "border-image:url(:/images/u18.png);"
+                               "border-image:url(:/image/u18.png);"
                                "line-height:normal;");
-    stop_Button->setCursor(QCursor(Qt::PointingHandCursor));
+    stopButton->setCursor(QCursor(Qt::PointingHandCursor));
 
 }
 
@@ -103,9 +104,9 @@ void Right::initLabel()
 
 void Right::resizeEvent(QResizeEvent *event)
 {
-    roadCon_Button->setGeometry(resizeWidth(28),resizeHeight(240),resizeWidth(173),resizeHeight(41));
-    start_Button->setGeometry(resizeWidth(0),resizeHeight(513),resizeWidth(219),resizeHeight(52));
-    stop_Button->setGeometry(resizeWidth(0),resizeHeight(612),resizeWidth(102),resizeHeight(84));
+    roadConButton->setGeometry(resizeWidth(28),resizeHeight(240),resizeWidth(173),resizeHeight(41));
+    startButton->setGeometry(resizeWidth(0),resizeHeight(513),resizeWidth(219),resizeHeight(52));
+    stopButton->setGeometry(resizeWidth(0),resizeHeight(612),resizeWidth(102),resizeHeight(84));
     remind_Label->setGeometry(resizeWidth(18),resizeHeight(368),resizeWidth(184),resizeHeight(112));
     roadCon_Label0->setGeometry(resizeWidth(102),resizeHeight(10),resizeWidth(70),resizeHeight(40));
     roadCon_Label1->setGeometry(resizeWidth(102),resizeHeight(92),resizeWidth(70),resizeHeight(40));
@@ -129,3 +130,4 @@ void Right::paintEvent(QPaintEvent *event)
     p.setPen(pen);
     p.drawLine(0,resizeHeight(171),resizeWidth(67),resizeHeight(171));
 }
+

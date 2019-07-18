@@ -3,11 +3,12 @@
 
 #include <QWidget>
 #include "bottom.h"
-//#include <bottom.h>
 #include "right.h"
 #include "body.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QLabel>
+#include <QDebug>
 namespace Ui {
 class Widget;
 }
@@ -30,6 +31,12 @@ private:
     Right *right;
     QHBoxLayout *h;  //垂直布局 right组成水平布局
     QVBoxLayout *v;  //body bottom组成垂直布局
+    QLabel *labels[ROAD_NUM];
+    int jam_level[ROAD_NUM];
+    QString jam_level_color[3];
+public slots:
+    void outtimeSlot(int carId,bool flag);
+
 };
 
 #endif // WIDGET_H
