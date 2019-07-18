@@ -7,6 +7,7 @@ Bottom::Bottom(QWidget *parent) : QWidget(parent)
     initLabel();
     inittext();
     initButton();
+    connect(autoStart_Button,SIGNAL(clicked()),this,SLOT(on_autoButton_clicked()));
 }
 
 void Bottom::initLabel()
@@ -47,13 +48,14 @@ void Bottom::inittext()
 
 void Bottom::initButton()
 {
-    autostart_Button=new QPushButton("开始",this);
+    autoStart_Button=new QPushButton("开始",this);
     //autostart_Button->setGeometry(465,82,67,37);
-    autostart_Button->setStyleSheet("font-style:normal;"
+    autoStart_Button->setStyleSheet("font-style:normal;"
                                     "font-size:23px;"
                                     "color:#333333;"
                                     "text-algin:center");
-    autostart_Button->setCursor(QCursor(Qt::PointingHandCursor));
+    autoStart_Button->setCursor(QCursor(Qt::PointingHandCursor));
+    connect(autoStart_Button,SIGNAL(clicked()),this,SLOT(on_autoButton_clicked()));
 
 }
 
@@ -72,8 +74,8 @@ void Bottom::paintEvent(QPaintEvent *event)
     Q_UNUSED(event);
     QPainter p(this);
     QRect target(0,0,this->width(),this->height());
-    p.drawImage(target,QImage(":/images/2233login.af9c53d.png"));
-    p.drawImage(target,QImage(":/images/white_60.png"));
+    p.drawImage(target,QImage(":/image/2233login.af9c53d.png"));
+    p.drawImage(target,QImage(":/image/white_60.png"));
 }
 
 void Bottom::resizeEvent(QResizeEvent *event)
@@ -81,5 +83,16 @@ void Bottom::resizeEvent(QResizeEvent *event)
     auto_Label->setGeometry(resizeWidth(267),resizeHeight(46),resizeWidth(108),resizeHeight(110));
     start_text->setGeometry(resizeWidth(390),resizeHeight(45),resizeWidth(58),resizeHeight(37));
     end_text->setGeometry(resizeWidth(390),resizeHeight(117),resizeWidth(58),resizeHeight(37));
-    autostart_Button->setGeometry(resizeWidth(465),resizeHeight(82),resizeWidth(67),resizeHeight(37));
+    autoStart_Button->setGeometry(resizeWidth(465),resizeHeight(82),resizeWidth(67),resizeHeight(37));
 }
+
+void Bottom::on_autoButton_clicked()
+{
+    int start=start_text->text().toInt()-1;
+    int end=end_text->text().toInt()-1;
+    qDebug()<<"页面底部发送自动开始信号";
+    emit autoStart(start,end);
+
+}
+
+

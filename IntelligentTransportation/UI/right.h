@@ -16,16 +16,16 @@ public:
     int resizeHeight(int reheight);
     void initButton();
     void initLabel();
-
+    QPushButton *startButton;//手动生成路径开始运行按钮
+    QPushButton *stopButton; //停止按钮
+    QPushButton *roadConButton;//路况按钮
 signals:
 protected:
     void resizeEvent(QResizeEvent *event);
     void paintEvent(QPaintEvent *event);
 
 private:
-    QPushButton *start_Button;//手动生成路径开始运行按钮
-    QPushButton *stop_Button; //停止按钮
-    QPushButton *roadCon_Button;//路况按钮
+
     QLabel *remind_Label;  //手动生成路径提示标签
     QLabel *roadCon_Label0;//roadCon_Label0  1  2  路况标识标签
     QLabel *roadCon_Label1;
@@ -33,6 +33,7 @@ private:
 
 
 public slots:
+
 };
 
 #endif // RIGHT_H
