@@ -1,13 +1,24 @@
 #include "background.h"
 
+Background *Background::bg_ptr = NULL;
+
 Background::Background(QObject *parent) : QObject(parent)
 {
     route = Route::getRoutePtr();
-    trans_to_cmd = new TransToCmdSeq;
+    trans_to_cmd = TransToCmdSeq::getRoutePtr(jam_level);
     net = Network::getNetPtr();
+    anima = new Animation;
+//    cartimer = new CarTimer;
+    // 初始化小车在线定时器
+//    cartimer->initAll();
+    // 读取卡号map配置文件
 
-    // 信号与槽绑定
-    connect(net, SIGNAL(SendDataToBackground(const QJsonObject &json)), this, SLOT())
+    initJamLevel();
+    readCardMapSetting();
+    // 信号与槽绑定,上行数据
+    connect(net, SIGNAL(SendDataToBackground(const QJsonObject &json)), this, SLOT(receiveDataSlot(const QJsonObject &json)));
+    // 中转小车在线信息给UI
+//    connect(cartimer, SIGNAL(sendToWindowCarOnline(int,bool)), this, SIGNAL(TransOnelineSignal(int,bool)));
 }
 
 Background *Background::getBgPtr()
@@ -31,7 +42,9 @@ void Background::begEndSlot(int begin, int end)
 
 void Background::jamLevelSlot(int *jamLevel, int road_num)
 {
-    jam_level = jamLevel;
+    for(int i = 0; i < 32; i++) {
+        jam_level[i] = jamLevel[i];
+    }
     ROAD_NUM = road_num;
 }
 
@@ -58,8 +71,45 @@ void Background::routePlanSlot()
 
 }
 
+void Background::manuPlanSlot(const QVector<int> &vec)
+{
+
+}
+
+// 解析上行数据json包，心跳包或卡号
+void Background::receiveDataSlot(const QJsonObject &json)
+{
+    int type = json.value("type").toInt();
+    QString pos;
+    int id;
+    switch (type) {
+    case 1: // 1号车心跳包
+        // 发给CarTimer判断是否掉线
+        emit carOnline(1);
+        break;
+    case 2: // 2号车心跳包
+        // 发给CarTimer判断是否掉线
+        emit carOnline(2);
+        break;
+    case 3: // 1号车当前读到的卡号
+        pos = json.value("rfid").toString();
+        id = getCardId(pos);
+        // 发给 Animation
+        emit carCurrentPosIdForAnimation(1, id);
+        break;
+    case 4: // 2号车当前读到的卡号
+        pos = json.value("rfid").toString();
+        id = getCardId(pos);
+        // 发给 Animation
+        emit carCurrentPosIdForAnimation(2, id);
+        break;
+    default:
+        break;
+    }
+}
+
 // 得到动画编号
-QVector Background::getAnimaIndex(int beg, int end, int *jamLevel)
+QVector<int> Background::getAnimaIndex(int beg, int end, int *jamLevel)
 {
     QVector<int> edgeVec;
     QVector<int> nodeVec = Route::getRoutePtr()->minRouteJam(beg, end, jamLevel);
@@ -71,6 +121,35 @@ QVector Background::getAnimaIndex(int beg, int end, int *jamLevel)
 //        qDebug()<<"edgeVec："<<edgeVec.at(i);
     }
     return edgeVec;
+}
+
+// 从配置文件读取实际64位卡号到自定义卡号的映射
+void Background::readCardMapSetting()
+{
+    QSettings set("card_id_map.ini", QSettings::IniFormat);
+    set.beginGroup("CardIdMapGroup");
+    QStringList str_list = set.allKeys();
+
+    for(int i = 0; i < str_list.size(); i++) {
+        card_id.insert(str_list[i], set.value(str_list[i]).toInt());
+    }
+}
+
+// 实际卡号映射为自定义卡号
+int Background::getCardId(QString card64)
+{
+    return card_id[card64];
+}
+// 测试用
+void Background::initJamLevel()
+{
+    for(int i=0;i<32;i++)
+    {
+        qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
+        int a = qrand()%2;   //随机生成0到2的随机数
+        jam_level[i] = a;
+    }
+    ROAD_NUM = 32;
 }
 
 

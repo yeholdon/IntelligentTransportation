@@ -2,7 +2,7 @@
 
 CarTimer::CarTimer(QObject *parent) : QObject(parent)
 {
-    connect(MainWindow::getWindowPtr(),SIGNAL(carOnline(int)),
+    connect(Background::getBgPtr(),SIGNAL(carOnline(int)),
             this,SLOT(carOnlineSlot(int)));
 }
 

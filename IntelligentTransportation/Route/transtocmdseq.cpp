@@ -1,33 +1,24 @@
 #include "TransToCmdSeq.h"
 #include<QTime>
 
-TransToCmdSeq* TransToCmdSeq::TransToCmdSeq = NULL;
+TransToCmdSeq* TransToCmdSeq::trans = NULL;
 
-TransToCmdSeq::TransToCmdSeq()
+TransToCmdSeq::TransToCmdSeq(int *jam_level)
 {
-//    生成jamLevel
-//    int *jamLevel = new int[32];
-//    for(int i=0;i<32;i++)
-//    {
-//        qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
-//        int a = qrand()%2;   //随机生成0到2的随机数
-//        jamLevel[i] = a;
-//    }
-
     //生成rotateconfig.ini
     //saveSettings();
-    QVector<int> edgeVec = getEdgeArray(2, 8, jamLevel);
+    QVector<int> edgeVec = getEdgeArray(2, 8, jam_level);
     QVector<int> rotateVec = getRotateArray( edgeVec);
     QString str = getCarControlInstruction( rotateVec);
     qDebug()<<"cmd："<<str;
     //emit carControlData(str);   //槽函数就不写了哈，实现QString->Json
 }
 
-TransToCmdSeq *TransToCmdSeq::getRoutePtr()
+TransToCmdSeq *TransToCmdSeq::getRoutePtr(int *jam_level)
 {
     if(trans == NULL)
     {
-        trans = new TransToCmdSeq;
+        trans = new TransToCmdSeq(jam_level);
     }
     return trans;
 }

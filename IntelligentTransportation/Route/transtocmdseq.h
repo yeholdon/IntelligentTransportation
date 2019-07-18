@@ -6,8 +6,7 @@
 class TransToCmdSeq
 {
 public:
-    TransToCmdSeq();
-    static TransToCmdSeq* getRoutePtr();
+    static TransToCmdSeq* getRoutePtr(int *jam_level);
     //小车指令生成接口
     QVector<int> getEdgeArray(int s,int e,int* jam_level);
     QVector<int> getRotateArray(QVector<int> edgeVec);
@@ -20,6 +19,7 @@ signals:
 
 private:
     static TransToCmdSeq* trans;
+    TransToCmdSeq(int *jam_level);
 };
 
 #endif // TransToCmdSeq_H

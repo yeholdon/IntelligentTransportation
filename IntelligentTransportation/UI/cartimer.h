@@ -2,9 +2,9 @@
 #define CARTIMER_H
 
 #include <QObject>
-
-#include "mainwindow.h"     //改成body
-
+#include "body.h"     //改成body
+#include "Background/background.h"
+#include <QTimer>
 class CarTimer : public QObject
 {
     Q_OBJECT
