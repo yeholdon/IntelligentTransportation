@@ -1,5 +1,6 @@
 #include "background.h"
 
+
 Background *Background::bg_ptr = NULL;
 
 Background::Background(QObject *parent) : QObject(parent)
@@ -13,10 +14,11 @@ Background::Background(QObject *parent) : QObject(parent)
 //    cartimer->initAll();
     // 读取卡号map配置文件
 
-    initJamLevel();
+    init();
     readCardMapSetting();
     // 信号与槽绑定,上行数据
-    connect(net, SIGNAL(SendDataToBackground(const QJsonObject &json)), this, SLOT(receiveDataSlot(const QJsonObject &json)));
+
+    connect(net, SIGNAL(SendDataToBackground(QJsonObject)), this, SLOT(receiveDataSlot(QJsonObject)));
     // 中转小车在线信息给UI
 //    connect(cartimer, SIGNAL(sendToWindowCarOnline(int,bool)), this, SIGNAL(TransOnelineSignal(int,bool)));
 }
@@ -36,6 +38,7 @@ void Background::carNumSlot(int carNum)
 
 void Background::begEndSlot(int begin, int end)
 {
+    qDebug() << "begEndSlot success";
     begin_num = begin;
     end_num = end;
 }
@@ -57,7 +60,7 @@ void Background::routePlanSlot()
     anima_vec = getAnimaIndex(begin_num, end_num, jam_level);
     // 得到路径序列
     edge_vec = trans_to_cmd->getEdgeArray(begin_num, end_num, jam_level);
-    // 得到动画编号序列
+    // 得到旋转角度序列
     rotate_vec = trans_to_cmd->getRotateArray(edge_vec);
     // 将路口、动画标号和rotate的Vector传到UI/Animation
     emit infoForAnimation(crossing_vec, anima_vec, rotate_vec);
@@ -73,15 +76,30 @@ void Background::routePlanSlot()
 
 void Background::manuPlanSlot(const QVector<int> &vec)
 {
+    // 得到动画编号序列
+    anima_vec = getAnimaIndex(begin_num, end_num, jam_level);
+    // 得到路径序列
+    edge_vec = trans_to_cmd->getEdgeArray(begin_num, end_num, jam_level);
+    // 得到旋转角度序列
+    rotate_vec = trans_to_cmd->getRotateArray(edge_vec);
+    // 将路口、动画标号和rotate的Vector传到UI/Animation
+    emit infoForAnimation(vec, anima_vec, rotate_vec);
 
+    // 得到cmd
+    QString cmd = trans_to_cmd->getCarControlInstruction(rotate_vec);
+    // 将cmd等值打包成json格式的数组
+    QByteArray json = Protocol::packData(car_num, "cmd", cmd);
+    // 发送json格式的字节流数组到服务器
+    net->sendNetData(json);
 }
 
 // 解析上行数据json包，心跳包或卡号
 void Background::receiveDataSlot(const QJsonObject &json)
 {
     int type = json.value("type").toInt();
-    QString pos;
+    QString pos, color;
     int id;
+    qDebug() <<"receiveDataSlot:" << type;
     switch (type) {
     case 1: // 1号车心跳包
         // 发给CarTimer判断是否掉线
@@ -94,18 +112,28 @@ void Background::receiveDataSlot(const QJsonObject &json)
     case 3: // 1号车当前读到的卡号
         pos = json.value("rfid").toString();
         id = getCardId(pos);
+        qDebug() << pos << " " << id;
         // 发给 Animation
         emit carCurrentPosIdForAnimation(1, id);
         break;
     case 4: // 2号车当前读到的卡号
         pos = json.value("rfid").toString();
         id = getCardId(pos);
+        qDebug() << pos << " " << id;
         // 发给 Animation
         emit carCurrentPosIdForAnimation(2, id);
         break;
+    case 5:
+        color = json.value("lightcolor").toString();
+        qDebug() << color;
     default:
         break;
     }
+}
+
+void Background::test()
+{
+    qDebug() << "test success";
 }
 
 // 得到动画编号
@@ -138,16 +166,24 @@ void Background::readCardMapSetting()
 // 实际卡号映射为自定义卡号
 int Background::getCardId(QString card64)
 {
+    if(card_id.find(card64) == card_id.end()) {
+        qDebug() << "No such card_id in card_id_map";
+        return 0;
+    }
     return card_id[card64];
 }
 // 测试用
-void Background::initJamLevel()
+void Background::init()
 {
-    for(int i=0;i<32;i++)
-    {
-        qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
-        int a = qrand()%2;   //随机生成0到2的随机数
-        jam_level[i] = a;
+    // 1. begin_num, end_num
+    begin_num = 0;
+    end_num = 11;
+    car_num = 1;
+    // 2. jam_level
+    qsrand((unsigned)time(NULL));
+    for(int i = 0; i < 24; i++) {
+        int r = (round(1.0 * rand() / RAND_MAX * (2 - 0) + 0));
+        jam_level[i] = r; // 记录当前生成的所有路段的拥堵等级，供路径规划使用
     }
     ROAD_NUM = 32;
 }

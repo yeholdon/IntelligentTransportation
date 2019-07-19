@@ -30,6 +30,7 @@ private:
     Right *right;
     QHBoxLayout *h;  //垂直布局 right组成水平布局
     QVBoxLayout *v;  //body bottom组成垂直布局
+signals:
 };
 
 #endif // WIDGET_H

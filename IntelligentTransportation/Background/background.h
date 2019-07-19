@@ -8,7 +8,6 @@
 #include "Network/protocol.h"
 #include "UI/animation.h"
 #include "UI/cartimer.h"
-#include "UI/body.h"
 #include <QTime>
 
 class Background : public QObject
@@ -51,6 +50,8 @@ public slots:
     // 上行数据，json包
     void receiveDataSlot(const QJsonObject &json);
 
+    void test();
+
 
 public:
     static Background *getBgPtr(); // 获取单例对象
@@ -58,7 +59,7 @@ public:
     void readCardMapSetting();
     int getCardId(QString card64);
     // 测试，获取给jam_level赋初值
-    void initJamLevel();
+    void init();
 };
 
 #endif // BACKGROUND_H

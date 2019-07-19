@@ -7,6 +7,8 @@
 #include <QPainter>
 #include <QLineEdit>
 #include <QPushButton>
+#include "Background/background.h"
+
 class Bottom : public QWidget
 {
     Q_OBJECT
@@ -19,11 +21,13 @@ public:
     int resizeHeight(int reheight);
 
 signals:
+
 protected:
     void paintEvent(QPaintEvent *event);
     void resizeEvent(QResizeEvent *event);
 
 public slots:
+
 private:
     QLabel *auto_Label;  //提示标签
     QLineEdit *start_text;//开始位置输入文本框

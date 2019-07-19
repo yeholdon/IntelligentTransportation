@@ -32,13 +32,14 @@ bool Network::sendNetData(const QByteArray &data)
     if(socket == NULL) {
         initNetwork();
     }
-    if(flag == true) {
+//    if(flag == true) {
         // 初始化网络对象成功
         qDebug() << "sentNetdata";
         if(socket->write(data) != -1) {
             return true;
         }
-    }
+//    }
+    return false;
 }
 // 读取数据槽函数
 void Network::readDataSlot()
@@ -60,7 +61,7 @@ void Network::disconnectSlot()
 // 网络连接成功后触发（需要绑定）
 void Network::connectedSlot()
 {
-    flag = true;
+//    flag = true;
     connect(socket, SIGNAL(readyRead()), this, SLOT(readDataSlot()));
     connect(socket, SIGNAL(disconnected()), this, SLOT(disconnectSlot()));
     qDebug() << "网络连接成功";

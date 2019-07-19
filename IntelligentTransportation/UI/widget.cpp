@@ -9,6 +9,7 @@ Widget::Widget(QWidget *parent) :
     this->setWindowIcon(QIcon(":/image/logo_new.png"));
     this->setWindowTitle(tr("智能小车"));
     initPage();
+
 }
 
 Widget::~Widget()

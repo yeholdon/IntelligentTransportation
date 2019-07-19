@@ -7,6 +7,9 @@ Bottom::Bottom(QWidget *parent) : QWidget(parent)
     initLabel();
     inittext();
     initButton();
+    connect(autostart_Button, SIGNAL(clicked()), this, SLOT(autoPlan()));
+    connect(this, SIGNAL(autoPlanSignal(int, int)), Background::getBgPtr(), SLOT(begEndSlot(int, int)));
+
 }
 
 void Bottom::initLabel()
