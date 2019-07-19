@@ -1,8 +1,9 @@
-HEADERS += \
-    $$PWD/mainwindow.h
+#HEADERS += \
+#    $$PWD/right.h
 
-SOURCES += \
-    $$PWD/mainwindow.cpp
+#SOURCES += \
+#    $$PWD/right.cpp
 
-FORMS += \
-    $$PWD/mainwindow.ui
+#FORMS += \
+#    $$PWD/right.ui \
+#    $$PWD/right.ui

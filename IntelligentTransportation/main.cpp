@@ -1,4 +1,3 @@
-#include "window/mainwindow.h"
 #include <QApplication>
 #include "UI/widget.h"
 #include "Route/route.h"

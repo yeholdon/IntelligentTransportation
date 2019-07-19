@@ -81,6 +81,7 @@ void SerialPortProtocol::receiveDeviceDataSlot(const QByteArray &data)
             receiveData.addr[1] = buffer[4];
             receiveData.len = buffer[5] - 8;
             receiveData.type = buffer[6];
+            receiveData.data.clear();
             for(int j= 0;j<receiveData.len;j++)
             {
                 receiveData.data.append(buffer[7+j]);
