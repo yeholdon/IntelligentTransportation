@@ -63,7 +63,7 @@ QString TransToCmdSeq::getCarControlInstruction(QVector<int> rotateVec)
     int i= 0;
     //由旋转角数组得到控制指令
     cmd.append("0"); //第一条道路默认前进
-    for(iter = rotateVec.begin(),i=0; iter != rotateVec.end(); iter++,i++)
+    for(iter = rotateVec.begin(),i=0; iter != rotateVec.end() - 1; iter++,i++)
     {
         switch( *(iter+1) - *iter)  //后一条与前一条路径旋转角的差值
         {

@@ -20,6 +20,7 @@ signals:
 private:
     static TransToCmdSeq* trans;
     TransToCmdSeq(int *jam_level);
+    int jam_level[32];
 };
 
 #endif // TransToCmdSeq_H

@@ -25,6 +25,9 @@ private:
     QHBoxLayout *h3;
     QVBoxLayout *v1;//垂直布局
 public slots:
+
+    // 接收来自right的信号，使能所有路口按钮
+//    void manuPlanStartEnableAllCrossingBtnSlot();
 };
 
 #endif // BODY_H

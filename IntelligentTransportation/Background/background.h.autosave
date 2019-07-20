@@ -50,7 +50,7 @@ public slots:
     void manuPlanSlot(const QVector<int> &vec);
     // 上行数据，json包
     void receiveDataSlot(const QJsonObject &json);
-    // 停车模式, 车号，车位号，
+    // 停车模式, 车号，车位号
     void parkPlanSlot();
     // 出车库
     void parkingOutSlot();

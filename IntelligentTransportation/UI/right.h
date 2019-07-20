@@ -14,6 +14,8 @@
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QMessageBox>
+#include "Background/background.h"
 
 class Right : public QWidget
 {
@@ -22,9 +24,18 @@ public:
     explicit Right(QWidget *parent = nullptr);
 
 signals:
+    // 信号，发给body显示的
+    // 手动规划开始，body收到后使能路口按钮.
+    void manuPlanStartSignal();
 protected:
     void resizeEvent(QResizeEvent *event);
 public slots:
+    // 接收小车在线信号
+    void receiveCarOnlineSlot(int car_number, bool flag);
+    // 接收交通灯颜色
+    void receiveLightColor(QString color);
+    // 接收手动规划模式选择的路口（按钮）信息，并显示
+//    void receiveManuPlanPathInfoSlot();
 public:
     int resizeWidth(int rewidth);
     int resizeHeight(int reheight);

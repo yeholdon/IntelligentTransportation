@@ -132,6 +132,11 @@ void Background::receiveDataSlot(const QJsonObject &json)
     }
 }
 
+void Background::parkPlanSlot()
+{
+    
+}
+
 void Background::test()
 {
     qDebug() << "test success";

@@ -14,7 +14,8 @@ int main(int argc, char *argv[])
     bgp->routePlanSlot();
 //    MainWindow w;
 //    w = new Widget;
-    Right w;
+    Widget w;
+//    Right w;
     w.show();
 
     return a.exec();
