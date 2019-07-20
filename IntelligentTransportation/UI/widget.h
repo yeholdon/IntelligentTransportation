@@ -27,6 +27,7 @@ public:
 protected:
     void resizeEvent(QResizeEvent *event);
 private:
+    CarTimer *cartimer;
     Bottom *bottom;
     Body *body;
     Right *right;

@@ -12,7 +12,11 @@ Widget::Widget(QWidget *parent) :
     initPage();
     connectSignal();
 
-
+    // 小车在线状态
+    connect(Background::getBgPtr(), SIGNAL(carOnline(int)), cartimer, SLOT(carOnlineSlot(int)));
+    connect(cartimer, SIGNAL(sendToWindowCarOnline(int,bool)), right, SLOT(receiveCarOnlineSlot(int, bool)));
+    // 交通灯状态
+    connect(Background::getBgPtr(), SIGNAL(lightColor(QString)), right, SLOT(receiveLightColor(QString)));
 }
 
 Widget::~Widget()
@@ -30,6 +34,10 @@ void Widget::initPage()
     h=new QHBoxLayout;
     h->addWidget(body);
     h->addWidget(right);
+
+    // 页面初始化的时候开始定时
+    cartimer = new CarTimer;
+    cartimer->initAll();
 }
 
 int Widget::resizeWidth(int rewidth)
