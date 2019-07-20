@@ -3,31 +3,31 @@
 
 TransToCmdSeq* TransToCmdSeq::trans = NULL;
 
-TransToCmdSeq::TransToCmdSeq(int *jam_level)
+TransToCmdSeq::TransToCmdSeq()
 {
     //生成rotateconfig.ini
     //saveSettings();
-    QVector<int> edgeVec = getEdgeArray(2, 8, jam_level);
-    QVector<int> rotateVec = getRotateArray( edgeVec);
-    QString str = getCarControlInstruction( rotateVec);
-    qDebug()<<"cmd："<<str;
+//    QVector<int> edgeVec = getEdgeArray(2, 8);
+//    QVector<int> rotateVec = getRotateArray( edgeVec);
+//    QString str = getCarControlInstruction( rotateVec);
+//    qDebug()<<"cmd："<<str;
     //emit carControlData(str);   //槽函数就不写了哈，实现QString->Json
 }
 
-TransToCmdSeq *TransToCmdSeq::getRoutePtr(int *jam_level)
+TransToCmdSeq *TransToCmdSeq::getRoutePtr()
 {
     if(trans == NULL)
     {
-        trans = new TransToCmdSeq(jam_level);
+        trans = new TransToCmdSeq();
     }
     return trans;
 }
 
 //得到路径数组
-QVector<int> TransToCmdSeq::getEdgeArray(int startPoint, int endPoint, int *jamLevel)
+QVector<int> TransToCmdSeq::getEdgeArray(QVector<int> nodeVec)
 {
     QVector<int> edgeVec;
-    QVector<int> nodeVec = Route::getRoutePtr()->minRouteJam(startPoint,endPoint,jamLevel);
+//    QVector<int> nodeVec = Route::getRoutePtr()->minRouteJam(startPoint,endPoint,jamLevel);
     QVector<int>::iterator iter;
     int i;
     for(iter = nodeVec.begin(),i=0; iter != nodeVec.end() - 1; iter++,i++)

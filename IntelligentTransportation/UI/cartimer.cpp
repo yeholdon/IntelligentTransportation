@@ -14,7 +14,7 @@ void CarTimer::initAll()
 
 void CarTimer::initCaronline()
 {
-    number_carOnline = 3;
+    number_carOnline = 5;
     for(int i = 0;i<5;i++)
     {
         carOnline[i] = 0;

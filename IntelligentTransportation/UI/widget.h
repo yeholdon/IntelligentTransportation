@@ -3,11 +3,13 @@
 
 #include <QWidget>
 #include "bottom.h"
-//#include <bottom.h>
 #include "right.h"
 #include "body.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QLabel>
+//const double W=369/224;  //所有的宽扩大369/224倍,所有的高扩大781/600倍
+//const double H=781/600;
 namespace Ui {
 class Widget;
 }
@@ -22,8 +24,6 @@ public:
     void initPage();
     int resizeWidth(int rewidth);
     int resizeHeight(int reheight);
-
-
 protected:
     void resizeEvent(QResizeEvent *event);
 private:
@@ -32,10 +32,7 @@ private:
     Right *right;
     QHBoxLayout *h;  //垂直布局 right组成水平布局
     QVBoxLayout *v;  //body bottom组成垂直布局
-    CarTimer *cartimer;
-public slots:
-
-
+    void connectSignal();
 signals:
 };
 

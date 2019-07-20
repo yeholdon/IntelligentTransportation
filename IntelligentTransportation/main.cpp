@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     Network::getNetPtr();
     Network::getNetPtr()->initNetwork();
     Background *bgp = Background::getBgPtr();
-    bgp->routePlanSlot();
+//    bgp->routePlanSlot();
 //    MainWindow w;
 //    w = new Widget;
     Widget w;

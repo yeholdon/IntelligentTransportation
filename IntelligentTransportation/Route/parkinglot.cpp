@@ -1,7 +1,7 @@
 #include "parkinglot.h"
 #include<QTime>
 
-ParkingLot::ParkingLot(int currentPoint = -1, int parkingSpace = -1, int destinationPoint = -1, int *jam_level)
+ParkingLot::ParkingLot(int currentPoint = -1, int parkingSpace = -1, int destinationPoint = -1, int *jam_level = NULL)
 {
     // 新加的，拥堵情况统一用background里的
     jamLevel = jam_level;
@@ -30,10 +30,10 @@ void ParkingLot::EnterParkingLot()
 //        int a = qrand()%2;   //随机生成0到2的随机数
 //        jamLevel[i] = a;
 //    }
-
+/*
     //小车由当前点开往停车场入口
-    QVector<int> edgeVec = TransToCmdSeq::getRoutePtr(jamLevel)->getEdgeArray(currentPoint, 6, jamLevel);
-    QVector<int> rotateVec = TransToCmdSeq::getRoutePtr(jamLevel)->getRotateArray( edgeVec);
+    QVector<int> edgeVec = TransToCmdSeq::getRoutePtr()->getEdgeArray(currentPoint, 6);
+    QVector<int> rotateVec = TransToCmdSeq::getRoutePtr()->getRotateArray( edgeVec);
     QString str = TransToCmdSeq::getRoutePtr(jamLevel)->getCarControlInstruction( rotateVec);
     cmd.append(str);
     //停车场入口   0-前   1-左    2-右
@@ -53,7 +53,7 @@ void ParkingLot::EnterParkingLot()
     }
 //      qDebug()<< "停车场车位cmd "<<cmd;
     //到车位停止
-
+*/
 }
 
 void ParkingLot::LeaveParkingLot()
@@ -66,7 +66,7 @@ void ParkingLot::LeaveParkingLot()
 //        int a = qrand()%2;   //随机生成0到2的随机数
 //        jamLevel[i] = a;
 //    }
-
+/*
     //小车由停车场车位开往停车场出口
     switch(parkingSpace){
         case 1:   cmd.append("2");    break;
@@ -89,6 +89,7 @@ void ParkingLot::LeaveParkingLot()
     //小车由停车场出口开往目的地
     cmd = cmd + str;
 //    qDebug()<< "目的地cmd "<<cmd;
+    */
 }
 
 QString ParkingLot::getParkingLotInstruction()

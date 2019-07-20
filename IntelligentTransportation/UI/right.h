@@ -1,6 +1,6 @@
 #ifndef RIGHT_H
 #define RIGHT_H
-
+#include <QDebug>
 #include <QWidget>
 #include <QComboBox>
 #include <QTextBrowser>
@@ -14,9 +14,8 @@
 #include <QApplication>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QMessageBox>
-#include "Background/background.h"
-
+#include <QString>
+#include <QButtonGroup>
 class Right : public QWidget
 {
     Q_OBJECT
@@ -24,22 +23,19 @@ public:
     explicit Right(QWidget *parent = nullptr);
 
 signals:
-    // 信号，发给body显示的
-    // 手动规划开始，body收到后使能路口按钮.
-    void manuPlanStartSignal();
+    void curCarIdSignal(int car_id);
 protected:
     void resizeEvent(QResizeEvent *event);
 public slots:
-    // 接收小车在线信号
-    void receiveCarOnlineSlot(int car_number, bool flag);
-    // 接收交通灯颜色
-    void receiveLightColor(QString color);
-    // 接收手动规划模式选择的路口（按钮）信息，并显示
-//    void receiveManuPlanPathInfoSlot();
+    void viewRouteSlot(const QString& routeString);
+    void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
+    void carRadBtnSlot();
 public:
     int resizeWidth(int rewidth);
     int resizeHeight(int reheight);
 public:
+    int cur_car_id; // 当前选择的小车编号，通过radiobutton槽函数设置
     /*
     QGroupBox *state_view_group_box;
     QLabel *car_label1, *car_label2, *light_label;
@@ -66,6 +62,9 @@ public:
     QVBoxLayout *v_layout;
     QHBoxLayout *h_layout, *h_rad_btn;
    */
+
+public:
+    QButtonGroup *car_rad_btn_group;
 
     QTabWidget *plan_mode_tab_widget;
     QWidget *manu_plan_widget;
@@ -107,15 +106,17 @@ public:
     QHBoxLayout *horizontalLayout_14;
     QLabel *park_pos1_label;
     QComboBox *pos_select_combo_box;
+    QPushButton *pushButton;
     QWidget *park_out_widget;
     QWidget *layoutWidget3;
     QHBoxLayout *horizontalLayout_15;
     QLabel *car_lot2_label;
     QComboBox *car_select2_combo_box;
+    QPushButton *pushButton_2;
     QWidget *layoutWidget4;
     QHBoxLayout *horizontalLayout_5;
     QGroupBox *state_view_group_box;
-    QWidget *widget;
+    QWidget *layoutWidget5;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
     QLabel *car_label1;
@@ -127,13 +128,13 @@ public:
     QLabel *light_label;
     QLabel *car_view_label3;
     QGroupBox *map_view_group_box;
-    QWidget *layoutWidget5;
+    QWidget *layoutWidget6;
     QVBoxLayout *verticalLayout_2;
     QCheckBox *flow_view_check_box;
     QHBoxLayout *horizontalLayout_4;
     QLabel *cmd_label;
     QPushButton *state_btn;
-    QWidget *layoutWidget6;
+    QWidget *layoutWidget7;
     QHBoxLayout *horizontalLayout_6;
     QRadioButton *car_rad_btn1;
     QRadioButton *car_rad_btn2;
@@ -290,7 +291,7 @@ public:
         avoid_jam_checkbox_4->setGeometry(QRect(10, 290, 91, 19));
         layoutWidget2 = new QWidget(park_in_widget);
         layoutWidget2->setObjectName(QStringLiteral("layoutWidget2"));
-        layoutWidget2->setGeometry(QRect(10, 20, 231, 111));
+        layoutWidget2->setGeometry(QRect(10, 0, 231, 111));
         verticalLayout_5 = new QVBoxLayout(layoutWidget2);
         verticalLayout_5->setSpacing(6);
         verticalLayout_5->setContentsMargins(11, 11, 11, 11);
@@ -328,12 +329,15 @@ public:
 
         verticalLayout_5->addLayout(horizontalLayout_14);
 
+        pushButton = new QPushButton(park_in_widget);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        pushButton->setGeometry(QRect(190, 100, 80, 31));
         pathPlan_2->addTab(park_in_widget, QString());
         park_out_widget = new QWidget();
         park_out_widget->setObjectName(QStringLiteral("park_out_widget"));
         layoutWidget3 = new QWidget(park_out_widget);
         layoutWidget3->setObjectName(QStringLiteral("layoutWidget3"));
-        layoutWidget3->setGeometry(QRect(10, 60, 251, 23));
+        layoutWidget3->setGeometry(QRect(10, 23, 251, 41));
         horizontalLayout_15 = new QHBoxLayout(layoutWidget3);
         horizontalLayout_15->setSpacing(6);
         horizontalLayout_15->setContentsMargins(11, 11, 11, 11);
@@ -349,6 +353,9 @@ public:
 
         horizontalLayout_15->addWidget(car_select2_combo_box);
 
+        pushButton_2 = new QPushButton(park_out_widget);
+        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        pushButton_2->setGeometry(QRect(170, 74, 80, 31));
         pathPlan_2->addTab(park_out_widget, QString());
         layoutWidget4 = new QWidget(Right);
         layoutWidget4->setObjectName(QStringLiteral("layoutWidget4"));
@@ -360,10 +367,10 @@ public:
         horizontalLayout_5->setContentsMargins(0, 0, 0, 0);
         state_view_group_box = new QGroupBox(layoutWidget4);
         state_view_group_box->setObjectName(QStringLiteral("state_view_group_box"));
-        widget = new QWidget(state_view_group_box);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(11, 22, 131, 91));
-        verticalLayout = new QVBoxLayout(widget);
+        layoutWidget5 = new QWidget(state_view_group_box);
+        layoutWidget5->setObjectName(QStringLiteral("layoutWidget5"));
+        layoutWidget5->setGeometry(QRect(11, 22, 131, 91));
+        verticalLayout = new QVBoxLayout(layoutWidget5);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
@@ -371,12 +378,12 @@ public:
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        car_label1 = new QLabel(widget);
+        car_label1 = new QLabel(layoutWidget5);
         car_label1->setObjectName(QStringLiteral("car_label1"));
 
         horizontalLayout->addWidget(car_label1);
 
-        car_view_label1 = new QLabel(widget);
+        car_view_label1 = new QLabel(layoutWidget5);
         car_view_label1->setObjectName(QStringLiteral("car_view_label1"));
 
         horizontalLayout->addWidget(car_view_label1);
@@ -387,12 +394,12 @@ public:
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        car_label2 = new QLabel(widget);
+        car_label2 = new QLabel(layoutWidget5);
         car_label2->setObjectName(QStringLiteral("car_label2"));
 
         horizontalLayout_2->addWidget(car_label2);
 
-        car_view_label2 = new QLabel(widget);
+        car_view_label2 = new QLabel(layoutWidget5);
         car_view_label2->setObjectName(QStringLiteral("car_view_label2"));
 
         horizontalLayout_2->addWidget(car_view_label2);
@@ -403,12 +410,12 @@ public:
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        light_label = new QLabel(widget);
+        light_label = new QLabel(layoutWidget5);
         light_label->setObjectName(QStringLiteral("light_label"));
 
         horizontalLayout_3->addWidget(light_label);
 
-        car_view_label3 = new QLabel(widget);
+        car_view_label3 = new QLabel(layoutWidget5);
         car_view_label3->setObjectName(QStringLiteral("car_view_label3"));
 
         horizontalLayout_3->addWidget(car_view_label3);
@@ -421,15 +428,15 @@ public:
 
         map_view_group_box = new QGroupBox(layoutWidget4);
         map_view_group_box->setObjectName(QStringLiteral("map_view_group_box"));
-        layoutWidget5 = new QWidget(map_view_group_box);
-        layoutWidget5->setObjectName(QStringLiteral("layoutWidget5"));
-        layoutWidget5->setGeometry(QRect(10, 20, 134, 58));
-        verticalLayout_2 = new QVBoxLayout(layoutWidget5);
+        layoutWidget6 = new QWidget(map_view_group_box);
+        layoutWidget6->setObjectName(QStringLiteral("layoutWidget6"));
+        layoutWidget6->setGeometry(QRect(10, 20, 134, 58));
+        verticalLayout_2 = new QVBoxLayout(layoutWidget6);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
-        flow_view_check_box = new QCheckBox(layoutWidget5);
+        flow_view_check_box = new QCheckBox(layoutWidget6);
         flow_view_check_box->setObjectName(QStringLiteral("flow_view_check_box"));
 
         verticalLayout_2->addWidget(flow_view_check_box);
@@ -437,12 +444,12 @@ public:
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setSpacing(6);
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        cmd_label = new QLabel(layoutWidget5);
+        cmd_label = new QLabel(layoutWidget6);
         cmd_label->setObjectName(QStringLiteral("cmd_label"));
 
         horizontalLayout_4->addWidget(cmd_label);
 
-        state_btn = new QPushButton(layoutWidget5);
+        state_btn = new QPushButton(layoutWidget6);
         state_btn->setObjectName(QStringLiteral("state_btn"));
 
         horizontalLayout_4->addWidget(state_btn);
@@ -453,20 +460,20 @@ public:
 
         horizontalLayout_5->addWidget(map_view_group_box);
 
-        layoutWidget6 = new QWidget(Right);
-        layoutWidget6->setObjectName(QStringLiteral("layoutWidget6"));
-        layoutWidget6->setGeometry(QRect(40, 190, 281, 21));
-        horizontalLayout_6 = new QHBoxLayout(layoutWidget6);
+        layoutWidget7 = new QWidget(Right);
+        layoutWidget7->setObjectName(QStringLiteral("layoutWidget7"));
+        layoutWidget7->setGeometry(QRect(40, 190, 281, 21));
+        horizontalLayout_6 = new QHBoxLayout(layoutWidget7);
         horizontalLayout_6->setSpacing(6);
         horizontalLayout_6->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
         horizontalLayout_6->setContentsMargins(0, 0, 0, 0);
-        car_rad_btn1 = new QRadioButton(layoutWidget6);
+        car_rad_btn1 = new QRadioButton(layoutWidget7);
         car_rad_btn1->setObjectName(QStringLiteral("car_rad_btn1"));
 
         horizontalLayout_6->addWidget(car_rad_btn1);
 
-        car_rad_btn2 = new QRadioButton(layoutWidget6);
+        car_rad_btn2 = new QRadioButton(layoutWidget7);
         car_rad_btn2->setObjectName(QStringLiteral("car_rad_btn2"));
 
         horizontalLayout_6->addWidget(car_rad_btn2);
@@ -474,9 +481,9 @@ public:
 
         retranslateUi(Right);
 
-        plan_mode_tab_widget->setCurrentIndex(0);
-        pathPlan_2->setCurrentIndex(1);
-
+        plan_mode_tab_widget->setCurrentIndex(1);
+        pathPlan_2->setCurrentIndex(0);
+        avoid_jam_combo_box->setCurrentIndex(1);
 
         QMetaObject::connectSlotsByName(Right);
     } // setupUi
@@ -485,7 +492,7 @@ public:
     {
         Right->setWindowTitle(QApplication::translate("Right", "Form", Q_NULLPTR));
         avoid_jam_checkbox->setText(QApplication::translate("Right", "\350\272\262\351\201\277\346\213\245\345\240\265 ", Q_NULLPTR));
-        start_btn->setText(QApplication::translate("Right", "\345\274\200\345\247\213", Q_NULLPTR));
+        start_btn->setText(QApplication::translate("Right", "\345\274\200\345\247\213\347\202\271\345\207\273", Q_NULLPTR));
         complete_btn->setText(QApplication::translate("Right", "\345\217\221\351\200\201", Q_NULLPTR));
         plan_mode_tab_widget->setTabText(plan_mode_tab_widget->indexOf(manu_plan_widget), QApplication::translate("Right", "\346\211\213\345\212\250\346\250\241\345\274\217", Q_NULLPTR));
         select_st_pt_label->setText(QApplication::translate("Right", "\351\200\211\346\213\251\350\265\267\347\202\271:", Q_NULLPTR));
@@ -527,6 +534,7 @@ public:
          << QApplication::translate("Right", "\350\275\246\344\275\2153", Q_NULLPTR)
          << QApplication::translate("Right", "\350\275\246\344\275\2154", Q_NULLPTR)
         );
+        pushButton->setText(QApplication::translate("Right", "\345\205\245\345\272\223", Q_NULLPTR));
         pathPlan_2->setTabText(pathPlan_2->indexOf(park_in_widget), QApplication::translate("Right", "\345\205\245\345\272\223", Q_NULLPTR));
         car_lot2_label->setText(QApplication::translate("Right", "\345\260\217\350\275\246", Q_NULLPTR));
         car_select2_combo_box->clear();
@@ -534,6 +542,7 @@ public:
          << QApplication::translate("Right", "\345\260\217\350\275\2461", Q_NULLPTR)
          << QApplication::translate("Right", "\345\260\217\350\275\2462", Q_NULLPTR)
         );
+        pushButton_2->setText(QApplication::translate("Right", "\345\207\272\345\272\223", Q_NULLPTR));
         pathPlan_2->setTabText(pathPlan_2->indexOf(park_out_widget), QApplication::translate("Right", "\345\207\272\345\272\223", Q_NULLPTR));
         state_view_group_box->setTitle(QApplication::translate("Right", "\347\212\266\346\200\201\346\230\276\347\244\272", Q_NULLPTR));
         car_label1->setText(QApplication::translate("Right", "\345\260\217\350\275\2461:", Q_NULLPTR));
@@ -550,8 +559,8 @@ public:
         car_rad_btn2->setText(QApplication::translate("Right", "\345\260\217\350\275\2462", Q_NULLPTR));
     } // retranslateUi
 
-
-
 };
+
+
 
 #endif // RIGHT_H

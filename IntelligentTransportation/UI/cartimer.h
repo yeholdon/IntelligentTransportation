@@ -4,7 +4,6 @@
 #include <QObject>
 #include "body.h"     //改成body
 #include "Background/background.h"
-#include "right.h"
 #include <QTimer>
 class CarTimer : public QObject
 {

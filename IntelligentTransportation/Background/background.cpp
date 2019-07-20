@@ -6,9 +6,9 @@ Background *Background::bg_ptr = NULL;
 Background::Background(QObject *parent) : QObject(parent)
 {
     route = Route::getRoutePtr();
-    trans_to_cmd = TransToCmdSeq::getRoutePtr(jam_level);
+    trans_to_cmd = TransToCmdSeq::getRoutePtr();
     net = Network::getNetPtr();
-    anima = new Animation;
+    //anima = new Animation;
 //    cartimer = new CarTimer;
     // 初始化小车在线定时器
 //    cartimer->initAll();
@@ -33,7 +33,7 @@ Background *Background::getBgPtr()
 
 void Background::carNumSlot(int carNum)
 {
-    carNum = carNum;
+    car_num = carNum;
 }
 
 void Background::begEndSlot(int begin, int end)
@@ -45,6 +45,7 @@ void Background::begEndSlot(int begin, int end)
 
 void Background::jamLevelSlot(int *jamLevel, int road_num)
 {
+
     for(int i = 0; i < 32; i++) {
         jam_level[i] = jamLevel[i];
     }
@@ -52,14 +53,17 @@ void Background::jamLevelSlot(int *jamLevel, int road_num)
 }
 
 // 自动规划模式，规划路径得到路段编号和指令,emit给Animation类
-void Background::routePlanSlot()
+void Background::routePlanSlot(const QVector<int> &crossing_vec)
 {
+    // 从规划到的路口序列中获取起点和终点
+    begin_num = crossing_vec.first();
+    end_num = crossing_vec.last();
     // 得到规划出路径的路口标号
-    crossing_vec = route->minRouteJam(begin_num, end_num, jam_level);
+//    crossing_vec = route->minRouteJam(begin_num, end_num, jam_level);
     // 得到动画编号序列
-    anima_vec = getAnimaIndex(begin_num, end_num, jam_level);
+    anima_vec = trans_to_cmd->getEdgeArray(crossing_vec);
     // 得到路径序列
-    edge_vec = trans_to_cmd->getEdgeArray(begin_num, end_num, jam_level);
+    edge_vec = trans_to_cmd->getEdgeArray(crossing_vec);
     // 得到旋转角度序列
     rotate_vec = trans_to_cmd->getRotateArray(edge_vec);
     // 将路口、动画标号和rotate的Vector传到UI/Animation
@@ -76,10 +80,13 @@ void Background::routePlanSlot()
 
 void Background::manuPlanSlot(const QVector<int> &vec)
 {
+    qDebug() << vec;
+    begin_num = vec.first();
+    end_num = vec.last();
     // 得到动画编号序列
-    anima_vec = getAnimaIndex(begin_num, end_num, jam_level);
+    anima_vec = trans_to_cmd->getEdgeArray(vec);
     // 得到路径序列
-    edge_vec = trans_to_cmd->getEdgeArray(begin_num, end_num, jam_level);
+    edge_vec = trans_to_cmd->getEdgeArray(vec);
     // 得到旋转角度序列
     rotate_vec = trans_to_cmd->getRotateArray(edge_vec);
     // 将路口、动画标号和rotate的Vector传到UI/Animation
@@ -87,6 +94,7 @@ void Background::manuPlanSlot(const QVector<int> &vec)
 
     // 得到cmd
     QString cmd = trans_to_cmd->getCarControlInstruction(rotate_vec);
+    qDebug() << "cmd:  " << cmd;
     // 将cmd等值打包成json格式的数组
     QByteArray json = Protocol::packData(car_num, "cmd", cmd);
     // 发送json格式的字节流数组到服务器
@@ -132,25 +140,35 @@ void Background::receiveDataSlot(const QJsonObject &json)
     }
 }
 
+void Background::parkPlanSlot()
+{
+
+}
+
+void Background::parkingOutSlot()
+{
+
+}
+
 void Background::test()
 {
     qDebug() << "test success";
 }
 
 // 得到动画编号
-QVector<int> Background::getAnimaIndex(int beg, int end, int *jamLevel)
-{
-    QVector<int> edgeVec;
-    QVector<int> nodeVec = Route::getRoutePtr()->minRouteJam(beg, end, jamLevel);
-    QVector<int>::iterator iter;
-    int i;
-    for(iter = nodeVec.begin(),i=0; iter != nodeVec.end() - 1; iter++,i++)
-    {
-        edgeVec.append( Route::getRoutePtr()->getNodeToEdge(*iter,*(iter+1)) );
-//        qDebug()<<"edgeVec："<<edgeVec.at(i);
-    }
-    return edgeVec;
-}
+//QVector<int> Background::getAnimaIndex(int beg, int end, int *jamLevel)
+//{
+//    QVector<int> edgeVec;
+//    QVector<int> nodeVec = Route::getRoutePtr()->minRouteJam(beg, end, jamLevel);
+//    QVector<int>::iterator iter;
+//    int i;
+//    for(iter = nodeVec.begin(),i=0; iter != nodeVec.end() - 1; iter++,i++)
+//    {
+//        edgeVec.append( Route::getRoutePtr()->getNodeToEdge(*iter,*(iter+1)) );
+////        qDebug()<<"edgeVec："<<edgeVec.at(i);
+//    }
+//    return edgeVec;
+//}
 
 // 从配置文件读取实际64位卡号到自定义卡号的映射
 void Background::readCardMapSetting()

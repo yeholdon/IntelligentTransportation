@@ -6,7 +6,6 @@
 #include "Route/transtocmdseq.h"
 #include "Network/network.h"
 #include "Network/protocol.h"
-#include "UI/animation.h"
 #include "UI/cartimer.h"
 #include <QTime>
 
@@ -29,7 +28,7 @@ private:
     Route *route; // 路径规划类
     TransToCmdSeq *trans_to_cmd; // 路径信息转化
     Network *net;   // 网络操作类
-    Animation *anima; // 动画类
+    //Animation *anima; // 动画类
 //    CarTimer *cartimer; // 判断小车在线定时器
 /****************************************************************/
     // 从前端收到的信号，用于Route
@@ -45,12 +44,12 @@ public slots:
     void carNumSlot(int carNum); // 获取ui当前操作的车号
     void begEndSlot(int beg, int end); // 获取起点终点编号
     void jamLevelSlot(int *jamLevel, int road_num); // 获取拥堵信息
-    void routePlanSlot(); // 接收路径规划命令
+    void routePlanSlot(const QVector<int> &crossing_vec); // 接收路径规划命令
     // 手动规划模式，获取路径结点向量，得到指令序列
     void manuPlanSlot(const QVector<int> &vec);
     // 上行数据，json包
     void receiveDataSlot(const QJsonObject &json);
-    // 停车模式, 车号，车位号，
+    // 停车模式, 车号，车位号
     void parkPlanSlot();
     // 出车库
     void parkingOutSlot();
@@ -59,7 +58,7 @@ public slots:
 
 public:
     static Background *getBgPtr(); // 获取单例对象
-    QVector<int> getAnimaIndex(int beg, int end, int *jamLevel);
+//    QVector<int> getAnimaIndex(int beg, int end, int *jamLevel);
     void readCardMapSetting();
     int getCardId(QString card64);
     // 测试，获取给jam_level赋初值

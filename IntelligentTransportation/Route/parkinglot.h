@@ -15,7 +15,7 @@ private:
     int destinationPoint; //小车的目的地点，用于出库
     int parkingSpace;     //停车位
     QString cmd;          //停车场指令
-    int jamLevel[32];
+    int *jamLevel;
 };
 
 #endif // PARKINGLOT_H
