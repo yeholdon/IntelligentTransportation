@@ -16,6 +16,8 @@
 #include <QVBoxLayout>
 #include <QString>
 #include <QButtonGroup>
+#include <QMessageBox>
+#include "Background/background.h"
 class Right : public QWidget
 {
     Q_OBJECT
@@ -31,6 +33,8 @@ public slots:
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
     void carRadBtnSlot();
+    void receiveCarOnlineSlot(int car_number, bool flag);
+    void receiveLightColor(QString color);
 public:
     int resizeWidth(int rewidth);
     int resizeHeight(int reheight);
@@ -558,6 +562,7 @@ public:
         car_rad_btn1->setText(QApplication::translate("Right", "\345\260\217\350\275\2461", Q_NULLPTR));
         car_rad_btn2->setText(QApplication::translate("Right", "\345\260\217\350\275\2462", Q_NULLPTR));
     } // retranslateUi
+
 
 };
 

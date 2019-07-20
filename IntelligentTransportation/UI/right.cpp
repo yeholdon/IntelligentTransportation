@@ -46,6 +46,51 @@ void Right::resizeEvent(QResizeEvent *event)
 
 
 }
+
+void Right::receiveCarOnlineSlot(int car_number, bool flag)
+{
+    // 接收到心跳包数据，操作相应控件显示小车在线信息
+    if(car_number == 1)
+    {
+        if(flag == true)
+        {
+            car_view_label1->setText("在线");
+        }
+        else
+        {
+            QMessageBox::information(this, "提醒", "小车1已离线！", QMessageBox::Ok, QMessageBox::NoButton);
+            car_view_label1->setText("离线");
+        }
+    }
+    else if(car_number == 2) {
+        if(flag == true)
+        {
+            car_view_label2->setText("在线");
+        }
+        else
+        {
+            QMessageBox::information(this, "提醒", "小车2已离线！", QMessageBox::Ok, QMessageBox::NoButton);
+            car_view_label2->setText("离线");
+        }
+    }
+
+
+
+}
+
+void Right::receiveLightColor(QString color)
+{
+    if(color == "red") {
+        car_view_label3->setText("红");
+    }
+    else if(color == "green")
+    {
+        car_view_label3->setText("绿");
+    }
+}
+
+
+
 //入库
 void Right::on_pushButton_clicked(){
     QString string0=pos_select_combo_box->currentText();

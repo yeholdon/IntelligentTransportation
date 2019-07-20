@@ -12,6 +12,7 @@ Widget::Widget(QWidget *parent) :
     initPage();
     connectSignal();
 
+
 }
 
 Widget::~Widget()
