@@ -8,7 +8,7 @@
 #include "Network/protocol.h"
 #include "UI/cartimer.h"
 #include <QTime>
-
+#include "Route/parkinglot.h"
 class Background : public QObject
 {
     Q_OBJECT
@@ -18,7 +18,7 @@ private:
 signals:
     void carOnline(int car_num); // 代表小车心跳包，1：1号车
     void lightColor(QString color); // 代表交通灯当前的颜色
-    void infoForAnimation(const QVector<int> &crossing_vec, const QVector<int> &anima_vec, const QVector<int> &rotate_vec);
+    void infoForAnimation(int car_num, const QVector<int> &crossing_vec, const QVector<int> &anima_vec, const QVector<int> &rotate_vec);
     void carCurrentPosIdForAnimation(int car_id, int card_id);
     // 中转定时器的在线离线信号
     void TransOnelineSignal(int car_number, bool flag);
@@ -50,9 +50,9 @@ public slots:
     // 上行数据，json包
     void receiveDataSlot(const QJsonObject &json);
     // 停车模式, 车号，车位号
-    void parkPlanSlot();
+    void parkPlanSlot(int car_id, int pos_index);
     // 出车库
-    void parkingOutSlot();
+    void parkingOutSlot(int car_id, QString tar_pt_id);
     void test();
 
 

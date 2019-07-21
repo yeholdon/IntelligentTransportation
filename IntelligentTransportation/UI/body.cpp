@@ -17,8 +17,8 @@ Body::Body(QWidget *parent) : QWidget(parent)
     qDebug()<<"body构造完毕";
 
     //将主控的信号与动画的槽函数绑定
-    connect(Background::getBgPtr(),SIGNAL(infoForAnimation(QVector<int>,QVector<int>,QVector<int>)),
-            this,SLOT(startAnimation(QVector<int>,QVector<int>,QVector<int>)));
+    connect(Background::getBgPtr(),SIGNAL(infoForAnimation(int, QVector<int>,QVector<int>,QVector<int>)),
+            this,SLOT(startAnimation(int, QVector<int>,QVector<int>,QVector<int>)));
     carLabel = new MyLabel(this);
     //carLabel->setGeometry(0,height()/48,width()/20,height()/12);
     int height = 1120,width = 781;
@@ -271,84 +271,90 @@ void Body::btnSlot()
 }
 void Body::on_autoButton_clicked()
 {
-    if(flag)
-        for(int i=0;i<ROAD_NUM;i++){
-            labels[i]->setStyleSheet(jam_level_color[jam_level[i]]);
+    if(vector.size()>=2){
+        if(flag)
+            for(int i=0;i<ROAD_NUM;i++){
+                labels[i]->setStyleSheet(jam_level_color[jam_level[i]]);
+            }
+        else
+            for(int i=0;i<ROAD_NUM;i++){
+               labels[i]->setStyleSheet("background-color:transparent");
+            }
+        qDebug()<<"自动规划信号抵达body";
+        crossingVector=Route::getRoutePtr()->minRouteJam(vector.at(0),vector.at(1),jam_level);
+         emit autoPlanCrossingSignal(crossingVector);
+        for(int i=0;i<crossingVector.size();i++){
+            qDebug()<<"返回的路径"<<crossingVector.at(i);
         }
+
+        for(int i=0;i<crossingVector.size()-1;i++){
+
+            int crossingIndex=crossingVector.at(i);
+            int crossingIndexNext=crossingVector.at(i+1);
+            int roadIndex=Route::getRoutePtr()->getNodeToEdge(crossingIndex,crossingIndexNext);
+            qDebug()<<"自动规划路口"<<crossingVector.at(i)<<" "<<crossingVector.at(i+1)<<"路线"<<roadIndex;
+
+            labels[roadIndex]->setStyleSheet("border:5px solid #00FFFF;"+jam_level_color[jam_level[roadIndex]]);
+
+
+        }
+        crossingVector.clear();
+    }
     else
-        for(int i=0;i<ROAD_NUM;i++){
-           labels[i]->setStyleSheet("background-color:transparent");
-        }
-    qDebug()<<"自动规划信号抵达body";
-    crossingVector=Route::getRoutePtr()->minRouteJam(vector.at(0),vector.at(1),jam_level);
-    //自动规划的路口vec //////////////////////////////////
-    emit autoPlanCrossingSignal(crossingVector);
-    for(int i=0;i<crossingVector.size();i++){
-        qDebug()<<"返回的路径"<<crossingVector.at(i);
-    }
-
-    for(int i=0;i<crossingVector.size()-1;i++){
-
-        int crossingIndex=crossingVector.at(i);
-        int crossingIndexNext=crossingVector.at(i+1);
-        int roadIndex=Route::getRoutePtr()->getNodeToEdge(crossingIndex,crossingIndexNext);
-        qDebug()<<"自动规划路口"<<crossingVector.at(i)<<" "<<crossingVector.at(i+1)<<"路线"<<roadIndex;
-
-        labels[roadIndex]->setStyleSheet("border:5px solid #00FFFF;"+jam_level_color[jam_level[roadIndex]]);
-
-
-    }
+        QMessageBox::critical(this,"错误","请选择起点与终点");
     vector.clear();
-    crossingVector.clear();
+
 }
 //手动 发送点击后,标记路线,清空路口vector
 void Body::on_manualButton_clicked()
 {
-
-    adjoin=true;
-    routeString="";
-    if(flag)
-        for(int i=0;i<ROAD_NUM;i++){
-            labels[i]->setStyleSheet(jam_level_color[jam_level[i]]);
-        }
-    else
-        for(int i=0;i<ROAD_NUM;i++){
-           labels[i]->setStyleSheet("background-color:transparent");
-        }
-    for(int i=0;i<vector.size()-1;i++){
-        int crossingIndex=vector.at(i);
-        int crossingIndexNext=vector.at(i+1);
-        int roadIndex=Route::getRoutePtr()->getNodeToEdge(crossingIndex,crossingIndexNext);
-        if(roadIndex==-1){
-            QMessageBox::critical(this,"错误","请选择相邻的路口");
-            vector.clear();
-            adjoin=false;
-            break;
-        }
-    }
-    if(adjoin){
-        // 手动规划出的路口编号vector//////////////////
-        emit crossingSignal(vector);  //发送拥堵信号接口.是否还需要?
-
+    if(vector.size()>=2){
+        adjoin=true;
+        routeString="";
+        if(flag)
+            for(int i=0;i<ROAD_NUM;i++){
+                labels[i]->setStyleSheet(jam_level_color[jam_level[i]]);
+            }
+        else
+            for(int i=0;i<ROAD_NUM;i++){
+               labels[i]->setStyleSheet("background-color:transparent");
+            }
         for(int i=0;i<vector.size()-1;i++){
             int crossingIndex=vector.at(i);
             int crossingIndexNext=vector.at(i+1);
             int roadIndex=Route::getRoutePtr()->getNodeToEdge(crossingIndex,crossingIndexNext);
-            qDebug()<<"标记路线"<<QString::number(roadIndex);
-            if(i==0){
-                routeString=QString::number(crossingIndex+1)+"->"+QString::number(crossingIndexNext+1);
+            if(roadIndex==-1){
+                QMessageBox::critical(this,"错误","请选择相邻的路口");
+                vector.clear();
+                adjoin=false;
+                break;
             }
-            else{
-                routeString=routeString+"->"+QString::number(crossingIndexNext + 1);
-            }
-//            routeString+=(i==0?""+crossingIndex:"->"+crossingIndex);
-
-            labels[roadIndex]->setStyleSheet("border:5px solid #00FFFF;"+jam_level_color[jam_level[roadIndex]]);
         }
-        setunabled();
+        if(adjoin){
+            emit crossingSignal(vector);  //发送拥堵信号接口.是否还需要?
+            for(int i=0;i<vector.size()-1;i++){
+                int crossingIndex=vector.at(i);
+                int crossingIndexNext=vector.at(i+1);
+                int roadIndex=Route::getRoutePtr()->getNodeToEdge(crossingIndex,crossingIndexNext);
+                qDebug()<<"标记路线"<<QString::number(roadIndex);
+                if(i==0){
+                    routeString=QString::number(crossingIndex+1)+"->"+QString::number(crossingIndexNext+1);
+                }
+                else{
+                    routeString=routeString+"->"+QString::number(crossingIndexNext+1);
+                }
+    //            routeString+=(i==0?""+crossingIndex:"->"+crossingIndex);
+
+                labels[roadIndex]->setStyleSheet("border:5px solid #00FFFF;"+jam_level_color[jam_level[roadIndex]]);
+            }
+            setunabled();
+            qDebug()<<routeString;
+            emit routeView(routeString);
+
+        }
+    }else{
+        QMessageBox::critical(this,"错误","请选择至少一条路线");
     }
-    qDebug()<<routeString;
-    emit routeView(routeString);
     vector.clear();
 }
 
@@ -452,7 +458,7 @@ void Body::animationTimerSlot()
     }
 }
 
-void Body::startAnimation(const QVector<int> &crossing_vec, const QVector<int> &route_num, const QVector<int> &rotate_vec)
+void Body::startAnimation(int car_num, const QVector<int> &crossing_vec, const QVector<int> &route_num, const QVector<int> &rotate_vec)
 {
     Q_UNUSED(crossing_vec);
     Q_UNUSED(rotate_vec);

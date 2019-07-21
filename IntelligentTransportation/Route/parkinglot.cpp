@@ -30,30 +30,31 @@ void ParkingLot::EnterParkingLot()
 //        int a = qrand()%2;   //随机生成0到2的随机数
 //        jamLevel[i] = a;
 //    }
-/*
+
     //小车由当前点开往停车场入口
-    QVector<int> edgeVec = TransToCmdSeq::getRoutePtr()->getEdgeArray(currentPoint, 6);
+    QVector<int> nodeVec = Route::getRoutePtr()->minRoute(currentPoint, 6);
+    QVector<int> edgeVec = TransToCmdSeq::getRoutePtr()->getEdgeArray(nodeVec);
     QVector<int> rotateVec = TransToCmdSeq::getRoutePtr()->getRotateArray( edgeVec);
-    QString str = TransToCmdSeq::getRoutePtr(jamLevel)->getCarControlInstruction( rotateVec);
+    QString str = TransToCmdSeq::getRoutePtr()->getCarControlInstruction( rotateVec);
     cmd.append(str);
     //停车场入口   0-前   1-左    2-右
     switch( edgeVec.at(edgeVec.length()-1) ){
-        case 15:   cmd.append("11");   break;
+        case 15:   cmd.append("1");   break;
         case 16:   cmd.append("2");    break;
-        case 23:   cmd.append("0");    break;
+        case 23:   cmd.append("4");    break;
         default:   break;
     }
 //     qDebug()<< "停车场入口cmd "<<cmd;
     //停车场入口至停车场车位
     switch(parkingSpace){
         case 1:   cmd.append("2");    break;
-        case 2:   cmd.append("0");    break;
+        case 2:   cmd.append("4");    break;
         case 3:   cmd.append("1");    break;
         default:   break;
     }
 //      qDebug()<< "停车场车位cmd "<<cmd;
     //到车位停止
-*/
+
 }
 
 void ParkingLot::LeaveParkingLot()
@@ -66,7 +67,7 @@ void ParkingLot::LeaveParkingLot()
 //        int a = qrand()%2;   //随机生成0到2的随机数
 //        jamLevel[i] = a;
 //    }
-/*
+
     //小车由停车场车位开往停车场出口
     switch(parkingSpace){
         case 1:   cmd.append("2");    break;
@@ -75,9 +76,15 @@ void ParkingLot::LeaveParkingLot()
         default:   break;
     }
     //路径规划
-    QVector<int> edgeVec = TransToCmdSeq::getRoutePtr(jamLevel)->getEdgeArray(2, destinationPoint, jamLevel);
-    QVector<int> rotateVec = TransToCmdSeq::getRoutePtr(jamLevel)->getRotateArray( edgeVec);
-    QString str = TransToCmdSeq::getRoutePtr(jamLevel)->getCarControlInstruction( rotateVec);
+//    QVector<int> edgeVec = TransToCmdSeq::getRoutePtr(jamLevel)->getEdgeArray(2, destinationPoint, jamLevel);
+//    QVector<int> rotateVec = TransToCmdSeq::getRoutePtr(jamLevel)->getRotateArray( edgeVec);
+//    QString str = TransToCmdSeq::getRoutePtr(jamLevel)->getCarControlInstruction( rotateVec);
+
+    QVector<int> nodeVec = Route::getRoutePtr()->minRoute(2, destinationPoint);
+    QVector<int> edgeVec = TransToCmdSeq::getRoutePtr()->getEdgeArray(nodeVec);
+    QVector<int> rotateVec = TransToCmdSeq::getRoutePtr()->getRotateArray( edgeVec);
+    QString str = TransToCmdSeq::getRoutePtr()->getCarControlInstruction( rotateVec);
+    cmd.append(str);
     //停车场出口
     if( edgeVec.at(0) == 5)   //离开停车场后先向右拐
     {
@@ -89,7 +96,7 @@ void ParkingLot::LeaveParkingLot()
     //小车由停车场出口开往目的地
     cmd = cmd + str;
 //    qDebug()<< "目的地cmd "<<cmd;
-    */
+
 }
 
 QString ParkingLot::getParkingLotInstruction()

@@ -34,7 +34,7 @@ void Widget::initPage()
     h=new QHBoxLayout;
     h->addWidget(body);
     h->addWidget(right);
-
+    right->setStyleSheet("background-image:;");
     // 页面初始化的时候开始定时
     cartimer = new CarTimer;
     cartimer->initAll();

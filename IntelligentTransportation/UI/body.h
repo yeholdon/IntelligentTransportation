@@ -88,7 +88,7 @@ public slots:
     void on_autoButton_clicked();
     void roadConSlot(int index);//躲避拥堵
     void animationTimerSlot();
-    void startAnimation(const QVector<int> &crossing_vec, const QVector<int> &route_num, const QVector<int> &rotate_vec);
+    void startAnimation(int car_num, const QVector<int> &crossing_vec, const QVector<int> &route_num, const QVector<int> &rotate_vec);
 };
 
 #endif // BODY_H

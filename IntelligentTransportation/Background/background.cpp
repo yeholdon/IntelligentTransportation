@@ -67,7 +67,7 @@ void Background::routePlanSlot(const QVector<int> &crossing_vec)
     // 得到旋转角度序列
     rotate_vec = trans_to_cmd->getRotateArray(edge_vec);
     // 将路口、动画标号和rotate的Vector传到UI/Animation
-    emit infoForAnimation(crossing_vec, anima_vec, rotate_vec);
+    emit infoForAnimation(car_num, crossing_vec, anima_vec, rotate_vec);
 
     // 得到cmd
     QString cmd = trans_to_cmd->getCarControlInstruction(rotate_vec);
@@ -90,7 +90,7 @@ void Background::manuPlanSlot(const QVector<int> &vec)
     // 得到旋转角度序列
     rotate_vec = trans_to_cmd->getRotateArray(edge_vec);
     // 将路口、动画标号和rotate的Vector传到UI/Animation
-    emit infoForAnimation(vec, anima_vec, rotate_vec);
+    emit infoForAnimation(car_num, vec, anima_vec, rotate_vec);
 
     // 得到cmd
     QString cmd = trans_to_cmd->getCarControlInstruction(rotate_vec);
@@ -139,15 +139,27 @@ void Background::receiveDataSlot(const QJsonObject &json)
         break;
     }
 }
-
-void Background::parkPlanSlot()
+// 入库路径规划
+void Background::parkPlanSlot(int car_id, int pos_index)
 {
-
+    ParkingLot parking(11, pos_index, -1, NULL);
+    parking.EnterParkingLot();
+    QString cmd = parking.getParkingLotInstruction();
+    // 将cmd等值打包成json格式的数组
+    QByteArray json = Protocol::packData(car_id, "cmd", cmd);
+    // 发送json格式的字节流数组到服务器
+    net->sendNetData(json);
 }
-
-void Background::parkingOutSlot()
+// 出库路径规划
+void Background::parkingOutSlot(int car_id, QString tar_pt_id)
 {
-
+    ParkingLot parking(-1, -1, tar_pt_id.toInt(), NULL);
+    parking.EnterParkingLot();
+    QString cmd = parking.getParkingLotInstruction();
+    // 将cmd等值打包成json格式的数组
+    QByteArray json = Protocol::packData(car_id, "cmd", cmd);
+    // 发送json格式的字节流数组到服务器
+    net->sendNetData(json);
 }
 
 void Background::test()

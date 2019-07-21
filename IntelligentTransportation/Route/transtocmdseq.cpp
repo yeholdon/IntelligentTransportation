@@ -62,7 +62,7 @@ QString TransToCmdSeq::getCarControlInstruction(QVector<int> rotateVec)
     QString cmd;  //小车控制指令
     int i= 0;
     //由旋转角数组得到控制指令
-    cmd.append("0");
+    cmd.append("5");
     cmd.append("4"); //第一条道路默认前进
     for(iter = rotateVec.begin(),i=0; iter != rotateVec.end() - 1; iter++,i++)
     {
